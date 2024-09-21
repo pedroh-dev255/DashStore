@@ -38,5 +38,19 @@
 
     <a href="./view/">Produtos</a>
     <a href="./view/clientes.php">Clientes</a>
+
+    <br><br>
+    <!-- REAME durante desenvolvimento -->
+    <h2>Relação do que ja foi desenvolvido:</h2>
+    <p>
+        [✔] Sistema de Login<br>
+        [] Controle e Criação de Usuarios<br>
+        [✔] Cadastro de Produtos<br>
+        [✔] Cadastro de Estoque<br>
+        [] Cadastro de Clientes<br>
+        [] Cadastro de Pedidos<br>
+        [] Cadastro de Pagamentos<br>
+        [] Styles<br>
+    </p>
 </body>
 </html>

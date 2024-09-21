@@ -4,7 +4,7 @@ SET time_zone = "-03:00";
 create DATABASE controle_lojinha
     CHARACTER SET utf8mb4 
     COLLATE utf8mb4_general_ci;
-use controle_lojinha;
+USE controle_lojinha;
 
 
 CREATE TABLE usuarios (
