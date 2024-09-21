@@ -1,2 +1,2 @@
-# dashboar_loginha
-Sistema de Deashboard com controle de vendas e estoque para uma loja.
+# dashboar_lojinha
+Sistema de Dashboard com controle de vendas e estoque para uma loja.
