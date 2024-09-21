@@ -98,6 +98,7 @@
                 }
 
                 $data = DateTime::createFromFormat('Y-m-d', $row['dt_compra'])->format('d/m/Y');
+                //Por algum motivo n consegui fazer o calculo do jeito mais simples, essa gambiarra deve funcionar :)
                 $c = $row['vlr_efetivo'];
                 $e = $row['vlr_compra'];
                 $frete = 0;
@@ -105,12 +106,12 @@
                 echo "<tr>
                         <td>".$row['nome']."</td>
                         <td>".$status."</td>
-                        <td>".$row['vlr_compra']."</td>
-                        <td>". $frete ."</td>
-                        <td>".$row['vlr_efetivo']."</td>
+                        <td> R$".number_format($row['vlr_compra'],2,",",".")."</td>
+                        <td> R$".number_format($frete,2,",",".") ."</td>
+                        <td> R$".number_format($row['vlr_efetivo'],2,",",".")."</td>
                         <td>".$row['qtd']."</td>
                         
-                        <td>".$row['vlr_venda']."</td>
+                        <td> R$".number_format($row['vlr_venda'],2,",",".")."</td>
                         
                         <td>".$data."</td>
                     </tr>";
