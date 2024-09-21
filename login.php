@@ -7,7 +7,6 @@
         header("Location: ./");
         exit();
     }
-    echo $senhaSegura = password_hash('senha123', PASSWORD_BCRYPT);
 
     if(isset($_POST['login']) && isset($_POST['pass'])){
         // Carrega conexão com banco de dados
