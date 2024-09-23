@@ -79,7 +79,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../style/favicon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Estoque</title>
 </head>
@@ -89,7 +89,7 @@
         <input type="hidden" name="logoff" value='true'>
         <input type="submit" value="Deslogar">
     </form>
-    
+
     <a href="../view/">Voltar</a>
     <br><br><br>
     <form action="./cad_estoque.php" method="post">
