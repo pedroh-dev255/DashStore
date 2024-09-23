@@ -9,7 +9,7 @@ senha: senha123
 
 ## Relação do que ja foi desenvolvido:
     [✔] Sistema de Login
-    [] Controle e Criação de Usuarios
+    [✔] Controle e Criação de Usuarios
     [✔] Cadastro de Produtos
     [✔] Cadastro de Estoque
     [] Cadastro de Clientes

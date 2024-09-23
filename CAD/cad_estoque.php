@@ -84,6 +84,12 @@
     <title>Cadastro de Estoque</title>
 </head>
 <body>
+    <!-- Botão para deslogar -->
+    <form action="../" method="get">
+        <input type="hidden" name="logoff" value='true'>
+        <input type="submit" value="Deslogar">
+    </form>
+    
     <a href="../view/">Voltar</a>
     <br><br><br>
     <form action="./cad_estoque.php" method="post">

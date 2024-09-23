@@ -52,7 +52,7 @@
             <th>Preço de compra</th>
             <th>Quantidade em Estoque</th>
             <th>Valor sujestivo para venda</th>
-            <th colapse="5">Data Compra</th>
+            <th>Data Compra</th>
         </tr>
         <?php
             require("../db.php");
