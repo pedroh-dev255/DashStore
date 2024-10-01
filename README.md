@@ -12,7 +12,7 @@ senha: senha123
     [✔] Controle e Criação de Usuarios
     [✔] Cadastro de Produtos
     [✔] Cadastro de Estoque
-    [] Cadastro de Clientes
+    [✔] Cadastro de Clientes
     [] Cadastro de Pedidos
     [] Cadastro de Pagamentos
     [] Stylos

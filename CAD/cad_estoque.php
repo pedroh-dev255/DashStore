@@ -13,14 +13,14 @@
     if(isset($_POST['nomes'])){
         if($_POST['nomes'] == "outro"){
             //verificar se o novo produto que vai se inserido ja não existe no banco
-            $existe;
+            $existe = "";
             while($row = mysqli_fetch_assoc($result)){
                 if($_POST['nome'] == $row['nome']){
-                    $existe=true;
+                    $existe="sim";
                 }
             }
 
-            if($existe === false){
+            if($existe != "sim"){
                 //primeiro vamos inserir o novo produto na tabela
                 $sql_ = "INSERT INTO produtos(nome) values (?)";
                 $stmt = $conn->prepare($sql_);
@@ -37,7 +37,7 @@
 
                 //inserir no estoque os dados cadastrados.
                 for($i=0;$i<$_POST['quantidade'];$i++){
-                    echo $row1['id'] . " - " . $_POST['quantidade'] . "<br>";
+                    //echo $row1['id'] . " - " . $_POST['quantidade'] . "<br>";
                     
                     $sql_ins = "INSERT INTO `estoque`(`id_prod`, `vlr_compra`, `status`, `vlr_efetivo`, `vlr_venda`, `dt_compra`) VALUES (?,?,0,?,?,?)";
                     $stmt0 = $conn->prepare($sql_ins);
@@ -47,6 +47,10 @@
 
                     $stmt0->execute();
                     $stmt0->close();
+
+                    $_SESSION['log'] = "Produto inserido";
+                    header("Location: ./cad_estoque.php");
+                    exit();
                 }
 
             }else{

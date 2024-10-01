@@ -42,3 +42,32 @@ CREATE TABLE estoque (
   PRIMARY KEY(id),
   FOREIGN KEY(id_prod) REFERENCES produtos(id)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+create table clientes(
+	id int AUTO_INCREMENT NOT NULL,
+    nome varchar(200) NOT NULL,
+    cpf varchar(15),
+    enedereco varchar(400),
+    status int NOT NULL,
+    telefone varchar(20) NOT NUll,
+    PRIMARY KEY(id)
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+CREATE TABLE pedidos (
+  id int AUTO_INCREMENT NOT NULL,
+  id_cliente int NOT NULL,
+  data_pedido date NOT NULL,
+  status int NOT NULL,
+  PRIMARY KEY(id),
+  FOREIGN KEY(id_cliente) REFERENCES clientes(id)
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+
+CREATE TABLE pedido_produtos (
+  id_pedido int NOT NULL,
+  id_produto int NOT NULL,
+  preco float NOT NULL,
+  PRIMARY KEY(id_pedido, id_produto),
+  FOREIGN KEY(id_pedido) REFERENCES pedidos(id),
+  FOREIGN KEY(id_produto) REFERENCES produtos(id)
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;

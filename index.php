@@ -48,7 +48,7 @@
         [✔] Controle e Criação de Usuarios<br>
         [✔] Cadastro de Produtos<br>
         [✔] Cadastro de Estoque<br>
-        [] Cadastro de Clientes<br>
+        [✔] Cadastro de Clientes<br>
         [] Cadastro de Pedidos<br>
         [] Cadastro de Pagamentos<br>
         [] Styles<br>
