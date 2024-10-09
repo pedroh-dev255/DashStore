@@ -41,6 +41,30 @@
     <a href="./view/users.php">Usuarios</a>
 
     <br><br>
+    <?php
+        require("db.php");
+        
+        $ss = "SELECT * FROM pedidos WHERE status = 0";
+        $stmtss = $conn->prepare($ss);
+        $stmtss->execute();
+        $resultss = $stmtss->get_result();
+        $rowss = mysqli_num_rows($resultss);
+
+        if($rowss>0){
+            $total=0;
+            while($rowsss = mysqli_fetch_assoc($resultss)){
+                $sss = "SELECT SUM(preco) AS total_preco FROM `pedido_produtos` WHERE `id_pedido` = ".$rowsss['id'].";";
+                $stmtsss = $conn->prepare($sss);
+                $stmtsss->execute();
+                $resultsss = $stmtsss->get_result();
+                $rowssss = mysqli_fetch_assoc($resultsss);
+                $total+=$rowssss['total_preco'];
+            }
+        }
+        if(isset($total)){
+            echo "Total a Receber: R$ " . number_format($total,2,",",".");
+        } 
+    ?>
     <!-- README durante desenvolvimento -->
     <h2>Relação do que ja foi desenvolvido:</h2>
     <p>
@@ -49,7 +73,7 @@
         [✔] Cadastro de Produtos<br>
         [✔] Cadastro de Estoque<br>
         [✔] Cadastro de Clientes<br>
-        [] Cadastro de Pedidos<br>
+        [✔] Cadastro de Pedidos<br>
         [] Cadastro de Pagamentos<br>
         [] Styles<br>
     </p>

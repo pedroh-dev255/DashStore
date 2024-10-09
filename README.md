@@ -13,6 +13,6 @@ senha: senha123
     [✔] Cadastro de Produtos
     [✔] Cadastro de Estoque
     [✔] Cadastro de Clientes
-    [] Cadastro de Pedidos
+    [✔] Cadastro de Pedidos
     [] Cadastro de Pagamentos
     [] Stylos

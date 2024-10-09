@@ -32,6 +32,25 @@
         exit();
     }
 
+    $ss = "SELECT * FROM pedidos WHERE id_cliente = ? AND status = 0";
+    $stmtss = $conn->prepare($ss);
+    $stmtss->bind_param('i', $_GET['id']);
+    $stmtss->execute();
+    $resultss = $stmtss->get_result();
+    $rowss = mysqli_num_rows($resultss);
+
+    if($rowss>0){
+        $total=0;
+        while($rowsss = mysqli_fetch_assoc($resultss)){
+            $sss = "SELECT SUM(preco) AS total_preco FROM `pedido_produtos` WHERE `id_pedido` = ".$rowsss['id'].";";
+            $stmtsss = $conn->prepare($sss);
+            $stmtsss->execute();
+            $resultsss = $stmtsss->get_result();
+            $rowssss = mysqli_fetch_assoc($resultsss);
+            $total+=$rowssss['total_preco'];
+        }
+    }
+        
 
 ?>
 
@@ -88,11 +107,17 @@
                     </tr>
                 </table>
                 <br>
-                <a href='seila?id=".$_GET['id']."'>Editar Perfil do Cliente</a>";
+                <a href='seila?id=".$_GET['id']."'>Editar Perfil do Cliente</a><br><br>";
+            
+            if(isset($total)){
+                echo "Valor Total em Aberto: R$ " . number_format($total,2,",",".");
+            }
 
             echo "<br><br><h2>Pedidos:</h2>";
             echo "<a href='../CAD/cad_pedido.php?id=".$_GET['id']."'>Adicionar Pedido</a>";
             echo "<br><br>";
+
+             
 
             //lista de pedidos
             $sql = "SELECT * FROM pedidos WHERE id_cliente = ?";

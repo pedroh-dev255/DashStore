@@ -64,12 +64,27 @@
             $rows = mysqli_num_rows($result);
 
             while($row = mysqli_fetch_assoc($result)){
-                if($row['status'] == 1){
+
+                $ss = "SELECT * FROM pedidos WHERE id_cliente = ".$row['id']." AND status = 0";
+                $stmtss = $conn->prepare($ss);
+                $stmtss->execute();
+                $resultss = $stmtss->get_result();
+                $rowss = mysqli_num_rows($resultss);
+                $total=0;
+                while($rowsss = mysqli_fetch_assoc($resultss)){
+                    $sss = "SELECT SUM(preco) AS total_preco FROM `pedido_produtos` WHERE `id_pedido` = ".$rowsss['id'].";";
+                    $stmtsss = $conn->prepare($sss);
+                    $stmtsss->execute();
+                    $resultsss = $stmtsss->get_result();
+                    $rowssss = mysqli_fetch_assoc($resultsss);
+                    $total+=$rowssss['total_preco'];
+                }
+
+
+                if($rowss>0){
                     $status = "Valor em aberto";
-                }else if($row['status'] == 0){
-                    $status = "Tudo Pago";
                 }else {
-                    $status = "erro";
+                    $status = "Tudo Pago";
                 }
 
                 if(!isset($row['cpf']) || $row['cpf'] == ""){
@@ -80,12 +95,14 @@
                     $row['endereco'] = "Não informado";
                 }
 
+
+
                 echo "<tr onclick=\"window.location.href='./perfil.php?id=".$row['id']."';\" style='cursor:pointer;'>
                         <td>".$row['nome']."</td>
                         <td>".$status."</td>
-                        <td></td>
-                        <td></td>
-                        <td><a href='../CAD/cad_pag.php'>Adicionar Pagamento</a></td>
+                        <td>".$rowss."</td>
+                        <td>R$ ".number_format($total,2,",",".")."</td>
+                        <td><a href='../CAD/cad_pag.php?id=".$row['id']."'>Adicionar Pagamento</a></td>
                         <td><a href='../CAD/cad_pedido.php?id=".$row['id']."'>Novo Pedido</a></td>
                     </tr>";
             }
