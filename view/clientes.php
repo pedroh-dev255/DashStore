@@ -86,7 +86,7 @@
                         <td></td>
                         <td></td>
                         <td><a href='../CAD/cad_pag.php'>Adicionar Pagamento</a></td>
-                        <td><a href='../CAD/cad_pedido.php'>Novo Pedido</a></td>
+                        <td><a href='../CAD/cad_pedido.php?id=".$row['id']."'>Novo Pedido</a></td>
                     </tr>";
             }
             echo "  <tr>

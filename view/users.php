@@ -50,9 +50,13 @@
                 echo "<tr>
                         <td>".$row['nome']."</td>
                         <td>".$row['email']."</td>
-                        <td><a href='./users.php?edit=".$row['id']."'>Editar</a></td>
-                        <td><a href='./users.php?del=".$row['id']."'>Deletar</a></td>
-                    </tr>";
+                        <td><a href='./users.php?edit=".$row['id']."'>Editar</a></td>";
+                if($rows>1){
+                    echo "<td><a href='./users.php?del=".$row['id']."'>Deletar</a></td>";
+                }else{
+                    echo "<td>❌</td>";
+                }
+                echo "</tr>";
             }
             echo "  <tr>
                         <td colspan='9'><a href='./users.php?novo=0'> Adicionar Novo usuario</a> </td>

@@ -67,7 +67,6 @@ CREATE TABLE pedido_produtos (
   id_pedido int NOT NULL,
   id_produto int NOT NULL,
   preco float NOT NULL,
-  PRIMARY KEY(id_pedido, id_produto),
   FOREIGN KEY(id_pedido) REFERENCES pedidos(id),
-  FOREIGN KEY(id_produto) REFERENCES produtos(id)
+  FOREIGN KEY(id_produto) REFERENCES estoque(id)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;

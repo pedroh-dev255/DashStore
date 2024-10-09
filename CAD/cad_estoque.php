@@ -60,7 +60,7 @@
             }
         }else{
             for($i=0;$i<$_POST['quantidade'];$i++){
-                echo $_POST['nomes'] . " - " . $_POST['quantidade'] . "<br>";
+                //echo $_POST['nomes'] . " - " . $_POST['quantidade'] . "<br>";
                 $sql_ins = "INSERT INTO `estoque`(`id_prod`, `vlr_compra`, `status`, `vlr_efetivo`, `vlr_venda`, `dt_compra`) VALUES (?,?,0,?,?,?)";
                 $stmt0 = $conn->prepare($sql_ins);
 
