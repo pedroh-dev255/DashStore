@@ -47,7 +47,7 @@ create table clientes(
 	id int AUTO_INCREMENT NOT NULL,
     nome varchar(200) NOT NULL,
     cpf varchar(15),
-    enedereco varchar(400),
+    endereco varchar(400),
     status int NOT NULL,
     telefone varchar(20) NOT NUll,
     PRIMARY KEY(id)
@@ -69,4 +69,16 @@ CREATE TABLE pedido_produtos (
   preco float NOT NULL,
   FOREIGN KEY(id_pedido) REFERENCES pedidos(id),
   FOREIGN KEY(id_produto) REFERENCES estoque(id)
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+
+
+CREATE TABLE pagamentos (
+  id INT AUTO_INCREMENT NOT NULL,
+  id_pedido INT NOT NULL,
+  valor_pago FLOAT NOT NULL,
+  data_pagamento DATE NOT NULL,
+  forma_pagamento VARCHAR(20) NOT NULL,
+  PRIMARY KEY(id),
+  FOREIGN KEY(id_pedido) REFERENCES pedidos(id)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;

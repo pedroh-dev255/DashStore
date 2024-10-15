@@ -238,6 +238,7 @@ if (isset($_GET['action'])) {
 
     <!-- Tabela de produtos disponíveis (não vendidos) -->
     <h3>Produtos Disponíveis</h3>
+    <a href="./cad_estoque.php">Ir para cadastro de produtos</a>
     <table id="produtosDisponiveis" border="1">
         <thead>
             <tr>

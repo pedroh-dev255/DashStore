@@ -16,7 +16,7 @@
 
     //carregar informações do pedido
     require("../db.php");
-    $sql="SELECT * FROM pedidos INNER JOIN clientes ON pedidos.id_cliente = clientes.id WHERE pedidos.id = ?";
+    $sql="SELECT *,pedidos.status AS status_pedido FROM pedidos INNER JOIN clientes ON pedidos.id_cliente = clientes.id WHERE pedidos.id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('s', $_GET['id_p']);
     $stmt->execute();
@@ -45,9 +45,9 @@
     <a href="./perfil.php?id=<?php echo $row['id'];?>">Voltar</a>
 
 
-    <h1>Pedido Numero: <?php echo $_GET['id_p'];?></h1>
+    <h1>Pedido Nº <?php echo $_GET['id_p'];?></h1>
     <h2>Cliente: <?php echo $row['nome'];?></h1>
-    <h3>Status: <?php if($row['status'] == 0){ echo "Pagamento Pendente"; }else { echo "Pago";}?></h3>
+    <h3>Status: <?php if($row['status_pedido'] == 0){ echo "Pagamento Pendente <br><br><a href='../CAD/cad_pag.php?id=".$row['id_cliente']."'>Adicionar Pagamento</a>"; }else { echo "Pago";}?></h3>
     <br>
 
     <?php
@@ -60,7 +60,7 @@
         $rows = mysqli_num_rows($result2);
         
 
-    
+
     ?>
     <table>
         <tr>
@@ -70,7 +70,6 @@
             <td>Produto</td>
             <!-- <td>Quantidade</td> -->
             <td>Valor</td>
-            <td>Devolução</td>
         </tr>
         
             <?php
@@ -81,14 +80,13 @@
                     echo "<td>".$row['nome']."</td>";
                     //echo "<td>".$row['quantidade']."</td>";
                     echo "<td> R$ ".number_format($row['preco'],2,",",".")."</td>";
-                    echo "<td>Devolver?</td>";
                     echo "</tr>";
                 }
             ?>
             
         
         <tr>
-            <td colspan="4">Valor Total: <?php echo $total?></td>
+            <td colspan="4">Valor Total: R$<?php echo number_format($total,2,",",".");?></td>
         </tr>
     </table>
 </body>

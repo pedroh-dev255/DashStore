@@ -38,6 +38,14 @@
         <button type="submit">Pesquisar</button>
      </form>
 
+     <?php
+        if(isset($_SESSION['log'])){
+            echo "<b>" . $_SESSION['log'] . "</b><br><br>";
+            unset($_SESSION['log']);
+        }
+            
+    ?>
+
     <!-- Lista de Produtos  -->
      <table>
         <tr>
@@ -71,13 +79,28 @@
                 $resultss = $stmtss->get_result();
                 $rowss = mysqli_num_rows($resultss);
                 $total=0;
+
+                // Busca o valor restante
+
+                
+                $restante = 0;
                 while($rowsss = mysqli_fetch_assoc($resultss)){
-                    $sss = "SELECT SUM(preco) AS total_preco FROM `pedido_produtos` WHERE `id_pedido` = ".$rowsss['id'].";";
+                    /*$sss = "SELECT SUM(preco) AS total_preco FROM `pedido_produtos` WHERE `id_pedido` = ".$rowsss['id'].";";
                     $stmtsss = $conn->prepare($sss);
                     $stmtsss->execute();
                     $resultsss = $stmtsss->get_result();
                     $rowssss = mysqli_fetch_assoc($resultsss);
-                    $total+=$rowssss['total_preco'];
+                    $total+=$rowssss['total_preco'];*/
+
+                    $sql_total = "SELECT SUM(preco) AS total_preco FROM pedido_produtos WHERE id_pedido = ".$rowsss['id'].";";
+                    $res_total = $conn->query($sql_total);
+                    $totais = $res_total->fetch_assoc();
+
+                    $sql2 = "SELECT SUM(valor_pago) AS total_pago FROM pagamentos WHERE id_pedido = ".$rowsss['id'].";";
+                    $res = $conn->query($sql2);
+                    $totais2 = $res->fetch_assoc();
+
+                    $restante += $totais['total_preco'] - $totais2['total_pago'];
                 }
 
 
@@ -101,9 +124,13 @@
                         <td>".$row['nome']."</td>
                         <td>".$status."</td>
                         <td>".$rowss."</td>
-                        <td>R$ ".number_format($total,2,",",".")."</td>
-                        <td><a href='../CAD/cad_pag.php?id=".$row['id']."'>Adicionar Pagamento</a></td>
-                        <td><a href='../CAD/cad_pedido.php?id=".$row['id']."'>Novo Pedido</a></td>
+                        <td>R$ ".number_format($restante,2,",",".")."</td>";
+                if($rowss>0){
+                    echo    "<td><a href='../CAD/cad_pag.php?id=".$row['id']."'>Adicionar Pagamento</a></td>";
+                }else{
+                    echo    "<td>Tudo Pago</td>";
+                }
+                echo    "<td><a href='../CAD/cad_pedido.php?id=".$row['id']."'>Novo Pedido</a></td>
                     </tr>";
             }
             echo "  <tr>

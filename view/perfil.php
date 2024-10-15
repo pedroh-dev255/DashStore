@@ -42,12 +42,15 @@
     if($rowss>0){
         $total=0;
         while($rowsss = mysqli_fetch_assoc($resultss)){
-            $sss = "SELECT SUM(preco) AS total_preco FROM `pedido_produtos` WHERE `id_pedido` = ".$rowsss['id'].";";
-            $stmtsss = $conn->prepare($sss);
-            $stmtsss->execute();
-            $resultsss = $stmtsss->get_result();
-            $rowssss = mysqli_fetch_assoc($resultsss);
-            $total+=$rowssss['total_preco'];
+            $sql_total = "SELECT SUM(preco) AS total_preco FROM pedido_produtos WHERE id_pedido = ".$rowsss['id'].";";
+            $res_total = $conn->query($sql_total);
+            $totais = $res_total->fetch_assoc();
+
+            $sql2 = "SELECT SUM(valor_pago) AS total_pago FROM pagamentos WHERE id_pedido = ".$rowsss['id'].";";
+            $res = $conn->query($sql2);
+            $totais2 = $res->fetch_assoc();
+
+            $total += $totais['total_preco'] - $totais2['total_pago'];
         }
     }
         
@@ -120,7 +123,7 @@
              
 
             //lista de pedidos
-            $sql = "SELECT * FROM pedidos WHERE id_cliente = ?";
+            $sql = "SELECT *, DATE_FORMAT(data_pedido, '%d/%m/%Y') AS data_formatada FROM pedidos WHERE id_cliente = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param('i', $_GET['id']);
             
@@ -130,7 +133,12 @@
             $rows = mysqli_num_rows($result);
 
             while($row = mysqli_fetch_assoc($result)){
-                echo "<a href='./pedidos.php?id_p=".$row['id']."'>" . $row['id'] . " | " . $row['data_pedido'] . " | " . $row['status'] . "</a>";
+                if($row['status'] == 1){
+                    $status = "Pedido Pago";
+                }else{
+                    $status = "Valor em Aberto";
+                }
+                echo "<a href='./pedidos.php?id_p=".$row['id']."'> Pedido N° " . $row['id'] . " | " . $row['data_formatada'] . " | " . $status . "</a>";
                 echo "<br>";
             }
 

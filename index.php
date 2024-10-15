@@ -53,12 +53,17 @@
         if($rowss>0){
             $total=0;
             while($rowsss = mysqli_fetch_assoc($resultss)){
-                $sss = "SELECT SUM(preco) AS total_preco FROM `pedido_produtos` WHERE `id_pedido` = ".$rowsss['id'].";";
-                $stmtsss = $conn->prepare($sss);
-                $stmtsss->execute();
-                $resultsss = $stmtsss->get_result();
-                $rowssss = mysqli_fetch_assoc($resultsss);
-                $total+=$rowssss['total_preco'];
+                
+                // Busca o valor restante
+                $sql_total = "SELECT SUM(preco) AS total_preco FROM pedido_produtos WHERE id_pedido = ".$rowsss['id'].";";
+                $res_total = $conn->query($sql_total);
+                $totais = $res_total->fetch_assoc();
+
+                $sql2 = "SELECT SUM(valor_pago) AS total_pago FROM pagamentos WHERE id_pedido = ".$rowsss['id'].";";
+                $res = $conn->query($sql2);
+                $totais2 = $res->fetch_assoc();
+
+                $total += $totais['total_preco'] - $totais2['total_pago'];
             }
         }
         if(isset($total)){
