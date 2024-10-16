@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap');
+
+body {
+    font-family: 'Afacad Flux', sans-serif;
+    background-color: rgb(255, 221, 221) !important;
+}
+
+.navbar {
+    background-color: transparent !important; /* Define o fundo transparente */
+}
+
+.botoes {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.botoes li {
+    margin-right: 10px;
+}
+
+.botoes li a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #e7d8e9;
+    color: rgb(46, 46, 46);
+    text-decoration: none;
+    border-radius: 20px;
+    position: relative;
+    transition: background-color 0.3s ease;
+    background-repeat: no-repeat;
+    background-position: 10px center; /* Ajusta a posição do ícone */
+    background-size: 20px; /* Ajusta o tamanho do ícone */
+    padding-left: 40px; /* Espaço para o ícone */
+}
+
+.botoes li:nth-child(1) a {
+    background-image: url('./img/produto.png'); /* URL do primeiro ícone */
+}
+
+.botoes li:nth-child(2) a {
+    background-image: url('./img/cliente.png'); /* URL do segundo ícone */
+}
+
+.botoes li:nth-child(3) a {
+  background-image: url('./img/user.png'); /* URL do segundo ícone */
+}
+
+.botoes li a:hover {
+    background-color: #af26ff;
+}

@@ -47,22 +47,29 @@
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="./style/favicon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style/geral.css">
+    <link rel="stylesheet" href="./style/login.css">
     <title>Login</title>
 </head>
 <body>
-    <h1>LOGIN</h1>
-    <form action="./login.php" method="post">
-        <label for="login">Email</label><br>
-        <input type="email" name="login" required><br>
-        <label for="pass">Senha</label><br>
-        <input type="password" name="pass" required><br><br>
-        <button type="submit">Entrar</button>
-        <?php
-            if(isset($_SESSION['log'])){
-                echo $_SESSION['log'];
-                unset($_SESSION['log']);
-            }
-        ?>
-    </form>
+
+        <div class="page">
+            
+            <form action="./login.php" method="post" class="formLogin">
+                <h1>LOGIN</h1>
+                <label for="login">Email</label>
+                <input type="email" name="login" required>
+                <label for="pass">Senha</label>
+                <input type="password" name="pass" required>
+                <button type="submit" class="btn">Entrar</button>
+                <?php
+                    if(isset($_SESSION['log'])){
+                        echo $_SESSION['log'];
+                        unset($_SESSION['log']);
+                    }
+                ?>
+            </form>
+        </div>
+    
 </body>
 </html>

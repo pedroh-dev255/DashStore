@@ -24,63 +24,250 @@
 <head>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="./style/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./style/geral.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Dashboard</title>
 </head>
 <body>
-    <!-- Botão para deslogar -->
-    <form action="./" method="get">
-        <input type="hidden" name="logoff" value='true'>
-        <input type="submit" value="Deslogar">
-    </form>
 
-    <h1>Dashboard</h1>
+    <nav class="navbar">
+        <div class="container-fluid">
+            <!-- Botão para deslogar -->
+            <form class="d-flex ms-auto" action="./" method="get">
+                <input type="hidden" name="logoff" value='true'>
+                <input type="submit" class="btn btn-danger" value="Deslogar">
+            </form>
+        </div>
+    </nav>
 
-    <a href="./view/">Produtos</a>
-    <a href="./view/clientes.php">Clientes</a>
-    <a href="./view/users.php">Usuarios</a>
+    <div class="container">
+        <h1>Dashboard</h1>
 
-    <br><br>
-    <?php
-        require("db.php");
-        
-        $ss = "SELECT * FROM pedidos WHERE status = 0";
-        $stmtss = $conn->prepare($ss);
-        $stmtss->execute();
-        $resultss = $stmtss->get_result();
-        $rowss = mysqli_num_rows($resultss);
+        <ol class="botoes">
+            <li>
+                <a href="./view/">Produtos</a>
+            </li>
+            <li>
+                <a href="./view/clientes.php">Clientes</a>
+            </li>
+            <li>
+                <a href="./view/users.php">Usuarios</a>
+            </li>
+        </ol>
 
-        if($rowss>0){
-            $total=0;
-            while($rowsss = mysqli_fetch_assoc($resultss)){
-                
-                // Busca o valor restante
-                $sql_total = "SELECT SUM(preco) AS total_preco FROM pedido_produtos WHERE id_pedido = ".$rowsss['id'].";";
-                $res_total = $conn->query($sql_total);
-                $totais = $res_total->fetch_assoc();
+        <br><br>
 
-                $sql2 = "SELECT SUM(valor_pago) AS total_pago FROM pagamentos WHERE id_pedido = ".$rowsss['id'].";";
-                $res = $conn->query($sql2);
-                $totais2 = $res->fetch_assoc();
+        <br>
+        <!-- Gráfico de pizza (rosquinha) para formas de pagamento -->
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Formas de Pagamento</h4>
+                <canvas id="paymentChart"></canvas>
+            </div>
 
-                $total += $totais['total_preco'] - $totais2['total_pago'];
+            <!-- Gráfico de pizza (rosquinha) para valores recebidos vs. valores a receber -->
+            <div class="col-md-6">
+                <h4>Recebidos vs. A Receber</h4>
+                <canvas id="totalChart"></canvas>
+            </div>
+
+        </div>
+
+        <br><br>
+        <?php
+            require("db.php");
+            
+            $ss = "SELECT * FROM pedidos WHERE status = 0";
+            $stmtss = $conn->prepare($ss);
+            $stmtss->execute();
+            $resultss = $stmtss->get_result();
+            $rowss = mysqli_num_rows($resultss);
+
+            if($rowss>0){
+                $total=0;
+                while($rowsss = mysqli_fetch_assoc($resultss)){
+                    
+                    // Busca o valor restante
+                    $sql_total = "SELECT SUM(preco) AS total_preco FROM pedido_produtos WHERE id_pedido = ".$rowsss['id'].";";
+                    $res_total = $conn->query($sql_total);
+                    $totais = $res_total->fetch_assoc();
+
+                    $sql2 = "SELECT SUM(valor_pago) AS total_pago FROM pagamentos WHERE id_pedido = ".$rowsss['id'].";";
+                    $res = $conn->query($sql2);
+                    $totais2 = $res->fetch_assoc();
+
+                    $total += $totais['total_preco'] - $totais2['total_pago'];
+                }
             }
-        }
-        if(isset($total)){
-            echo "Total a Receber: R$ " . number_format($total,2,",",".");
-        } 
-    ?>
-    <!-- README durante desenvolvimento -->
-    <h2>Relação do que ja foi desenvolvido:</h2>
-    <p>
-        [✔] Sistema de Login<br>
-        [✔] Controle e Criação de Usuarios<br>
-        [✔] Cadastro de Produtos<br>
-        [✔] Cadastro de Estoque<br>
-        [✔] Cadastro de Clientes<br>
-        [✔] Cadastro de Pedidos<br>
-        [] Cadastro de Pagamentos<br>
-        [] Styles<br>
-    </p>
+            $sql3 = "SELECT SUM(valor_pago) AS total_pago FROM pagamentos;";
+            $res3 = $conn->query($sql3);
+            $totais3 = $res3->fetch_assoc();
+
+            if(isset($total)){
+                //echo "Total a Receber: R$ " . number_format($total,2,",","."). "<br>";
+            }
+            if(isset($totais3['total_pago']) && is_numeric($totais3['total_pago'])){
+                //echo "Total já recebido: R$ ". number_format($totais3['total_pago'],2,",",".") . "<br>";
+
+                $sql4 = "SELECT forma_pagamento, SUM(valor_pago) AS total_pago FROM pagamentos GROUP BY forma_pagamento;";
+                $res4 = $conn->query($sql4);
+                //$totais3 = $res3->fetch_assoc();
+                while($row2 = mysqli_fetch_assoc($res4)){
+                    //echo "Forma: " . $row2['forma_pagamento'] . " Total: R$ ". number_format($row2['total_pago'],2,",",".") . "<br>";
+                }
+            }
+        ?>
+        <!-- README durante desenvolvimento -->
+        <h2>Relação do que ja foi desenvolvido:</h2>
+        <p>
+            [✔] Sistema de Login<br>
+            [✔] Controle e Criação de Usuarios<br>
+            [✔] Cadastro de Produtos<br>
+            [✔] Cadastro de Estoque<br>
+            [✔] Cadastro de Clientes<br>
+            [✔] Cadastro de Pedidos<br>
+            [✔] Cadastro de Pagamentos<br>
+            [] Styles<br>
+        </p>
+    </div>
+
+    <script>
+        // Gráfico 1: Formas de Pagamento (Rosquinha)
+        const paymentData = {
+            labels: [
+                <?php
+                    $formas = [];
+                    $totais = [];
+
+                    $res4->data_seek(0); // Reseta o ponteiro do resultado
+
+                    while($row2 = mysqli_fetch_assoc($res4)) {
+                        $formas[] = "'" . $row2['forma_pagamento'] . "'";
+                        $totais[] = $row2['total_pago'];
+                    }
+
+                    if (!empty($formas)) {
+                        echo implode(", ", $formas);
+                    }
+                ?>
+            ],
+            datasets: [{
+                label: 'Formas de Pagamento',
+                data: [
+                    <?php
+                        if (!empty($totais)) {
+                            echo implode(", ", $totais);
+                        }
+                    ?>
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(153, 102, 255, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1,
+                hoverOffset: 4
+            }]
+        };
+
+        const paymentChartConfig = {
+            type: 'doughnut',
+            data: paymentData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            generateLabels: function(chart) {
+                                const dataset = chart.data.datasets[0];
+                                return chart.data.labels.map((label, i) => {
+                                    const value = dataset.data[i];
+                                    return {
+                                        text: `${label}: R$ ${value.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`,
+                                        fillStyle: dataset.backgroundColor[i],
+                                        hidden: false,
+                                    };
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        const paymentChart = new Chart(
+            document.getElementById('paymentChart'),
+            paymentChartConfig
+        );
+
+        // Gráfico 2: Total Recebido vs. Total a Receber (Rosquinha)
+        const totalData = {
+            labels: ['Total Recebido', 'Total a Receber'],
+            datasets: [{
+                label: 'Total',
+                data: [
+                    <?php
+                        // Valores recebidos e a receber
+                        $total_recebido = isset($totais3['total_pago']) ? $totais3['total_pago'] : 0;
+                        $total_a_receber = isset($total) ? $total : 0;
+                        echo $total_recebido . ', ' . $total_a_receber;
+                    ?>
+                ],
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)'
+                ],
+                borderWidth: 1,
+                hoverOffset: 4
+            }]
+        };
+
+        const totalChartConfig = {
+            type: 'doughnut',
+            data: totalData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            generateLabels: function(chart) {
+                                const dataset = chart.data.datasets[0];
+                                return chart.data.labels.map((label, i) => {
+                                    const value = dataset.data[i];
+                                    return {
+                                        text: `${label}: R$ ${value.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`,
+                                        fillStyle: dataset.backgroundColor[i],
+                                        hidden: false,
+                                    };
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        const totalChart = new Chart(
+            document.getElementById('totalChart'),
+            totalChartConfig
+        );
+    </script>
 </body>
 </html>

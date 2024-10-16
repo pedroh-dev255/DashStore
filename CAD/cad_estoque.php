@@ -84,17 +84,27 @@
 <head>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="../style/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./style/geral.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Estoque</title>
 </head>
 <body>
-    <!-- Botão para deslogar -->
-    <form action="../" method="get">
-        <input type="hidden" name="logoff" value='true'>
-        <input type="submit" value="Deslogar">
-    </form>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+             <!-- Voltar ao dashboard -->
+            <a class="btn btn-info" href="../view/">Voltar</a>
 
-    <a href="../view/">Voltar</a>
+            <!-- Botão para deslogar -->
+            <form class="d-flex ms-auto" action="../" method="get">
+                <input type="hidden" name="logoff" value='true'>
+                <input type="submit" class="btn btn-danger" value="Deslogar">
+            </form>
+        </div>
+    </nav>
+
+
     <br><br><br>
     <form action="./cad_estoque.php" method="post">
         <label for="nomes">Nome:</label>

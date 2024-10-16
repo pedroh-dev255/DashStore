@@ -110,15 +110,27 @@
 <head>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="../style/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./style/geral.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Pagamento</title>
 </head>
 <body>
-    <form action="../" method="get">
-        <input type="hidden" name="logoff" value='true'>
-        <input type="submit" value="Deslogar">
-    </form>
-    <a href="../view/clientes.php">Voltar</a>
+
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+             <!-- Voltar ao dashboard -->
+            <a class="btn btn-info" href="../view/clientes.php">Voltar</a>
+
+            <!-- Botão para deslogar -->
+            <form class="d-flex ms-auto" action="../" method="get">
+                <input type="hidden" name="logoff" value='true'>
+                <input type="submit" class="btn btn-danger" value="Deslogar">
+            </form>
+        </div>
+    </nav>
+
 
     <h2>Cadastro de Pagamentos</h2>
     <form method="post" action="">
