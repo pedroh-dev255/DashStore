@@ -70,7 +70,7 @@
 
 
     ?>
-    <table>
+    <table class="minha-tabela">
         <tr>
             <th colspan="4">Lista de Produtos</th>
         </tr>

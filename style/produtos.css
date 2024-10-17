@@ -55,6 +55,44 @@ body {
     width: 60%;
 }
 
+h1 {
+  font-size: calc(1.375rem + 1.5vw);
+}
+
+.container {
+  margin: 10px 10%;
+}
+
+.custom-navbar {
+  padding: 8x 15px;
+  background-color: #f8f9fa; /* Você pode ajustar a cor de fundo */
+}
+
+.custom-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-container .btn {
+  padding: 8px 20px;
+  font-size: 16px;
+  border-radius: 6px;
+  font-weight: none;
+  
+}
+
+.custom-container a.btn-info {
+  background-color: #00cfff; /* Cor customizada para o botão "Voltar" */
+  text-decoration: none;
+}
+
+.custom-container input.btn-danger {
+  background-color: #ff4b4b; /* Cor customizada para o botão "Deslogar" */
+  color: white;
+  border: none;
+}
+
 
 @media screen and (max-width: 580px) {
     body {
@@ -64,84 +102,115 @@ body {
   }
   
   .wrapper {
-    margin: 0 auto;
-    padding-top: 20px;
-    max-width: 80%;
+    margin: 0 auto !important;
+    padding-top: 20px !important;
+    max-width: 80% !important;
   }
   
   .table {
-    margin: 0 0 40px 0;
-    width: 100%;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    display: table;
+    margin: 0 0 40px 0 !important;
+    width: 100% !important;
+    box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2) !important;
+    display: table !important;
   }
+
   @media screen and (max-width: 580px) {
     .table {
-      display: block;
+      display: block !important;
     }
   }
   
   .row {
-    display: table-row;
-    background: #f6f6f6;
+   /* width: 10% !important;
+    */display: table-row !important;
+    background: #f6f6f6 !important;
   }
+
   .row:nth-of-type(odd) {
-    background: #e9e9e9;
+    background: #e9e9e9 !important;
   }
+
   .row.header {
-    font-weight: 900;
-    color: #ffffff;
-    background: #ea6153;
+    font-weight: 900 !important;
+    color: #ffffff !important;
+    background: #ea6153 !important;
   }
+
   .row.green {
-    background: #27ae60;
+    background: #27ae60 !important;
   }
+
   .row.blue {
-    background: #2980b9;
+    background: #2980b9 !important;
   }
+
   @media screen and (max-width: 580px) {
     .row {
-      padding: 14px 0 7px;
-      display: block;
+      padding: 14px 0 7px !important;
+      display: block !important;
     }
     .row.header {
-      padding: 0;
-      height: 6px;
+      padding: 0 !important;
+      height: 6px !important;
     }
     .row.header .cell {
-      display: none;
+      display: none !important;
     }
     .row .cell {
-      margin-bottom: 10px;
+      margin-bottom: 10px !important;
     }
     .row .cell:before {
-      margin-bottom: 3px;
-      content: attr(data-title);
-      min-width: 98px;
-      font-size: 10px;
-      line-height: 10px;
-      font-weight: bold;
-      text-transform: uppercase;
-      color: #969696;
-      display: block;
+      margin-bottom: 3px !important;
+      content: attr(data-title) !important;
+      min-width: 98px !important;
+      font-size: 10px !important;
+      line-height: 10px !important;
+      font-weight: bold !important;
+      text-transform: uppercase !important;
+      color: #969696 !important;
+      display: block !important;
     }
   }
   
   .cell {
-    padding: 6px 12px;
-    display: table-cell;
+    padding: 6px 12px !important;
+    display: table-cell !important;
   }
   @media screen and (max-width: 580px) {
     .cell {
-      padding: 2px 16px;
-      display: block;
+      padding: 2px 16px !important;
+      display: block !important;
     }
   }
   
   .row.yellow {
-    background-color: #ffff00; /* Amarelo */
+    background-color: #ffff00 !important; /* Amarelo */
 }
 
 .row.red {
-    background-color: #ff0000; /* Vermelho */
+    background-color: #ff0000 !important; /* Vermelho */
+}
+
+.pesquisa {
+  display: flex;
+  justify-content: center;
+
+}
+
+#search{
+  background-color: white;
+  background-image: url('https://www.w3schools.com/css/searchicon.png');
+  background-position: 8px 8px;
+  background-repeat: no-repeat;
+  padding-left: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+.pesq {
+  margin-left: 5px;
+  background-color: rgb(0, 167, 0);
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
 }

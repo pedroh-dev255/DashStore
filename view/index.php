@@ -15,22 +15,20 @@
 <head>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="../style/favicon.ico" type="image/x-icon">
-    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
--->
-    <link rel="stylesheet" href="../style/cad_produtos.css">
+    <link rel="stylesheet" href="../style/geral.css">
     <link rel="stylesheet" href="../style/produtos.css">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Produtos</title>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container-fluid">
-             <!-- Voltar ao dashboard -->
+    <nav class="navbar custom-navbar">
+        <div class="container-fluid custom-container">
+            <!-- Voltar ao dashboard -->
             <a class="btn btn-info" href="../">Voltar</a>
 
             <!-- Botão para deslogar -->
-            <form class="d-flex ms-auto" action="../" method="get">
+            <form class="d-flex" action="../" method="get">
                 <input type="hidden" name="logoff" value='true'>
                 <input type="submit" class="btn btn-danger" value="Deslogar">
             </form>
@@ -52,11 +50,12 @@
         </ol>
         
         <br><br>
+        
 
         <!-- Barra de pesquisa -->
-        <form action="./" method="GET">
+        <form class="pesquisa" action="./" method="GET">
             <input type="search" id="search" name="busca">
-            <button class="btn btn-primary" type="submit">Pesquisar</button>
+            <button class="pesq" type="submit">Pesquisar</button>
         </form>
 
         <div class="wrapper">
