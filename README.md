@@ -16,3 +16,7 @@ senha: senha123
     [✔] Cadastro de Pedidos
     [✔] Cadastro de Pagamentos
     [] Stylos
+
+
+Dashboard
+![image](https://github.com/user-attachments/assets/e5072952-0e20-4ae1-9fdd-08f3439c714b)
