@@ -1,4 +1,4 @@
-# dashboar_lojinha
+# DashStore
 Sistema de Dashboard com controle de vendas e estoque para uma loja.
 
 ## Usuario padrão para o sistema:
