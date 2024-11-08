@@ -3,7 +3,7 @@ Sistema de Dashboard com controle de vendas e estoque para uma loja.
 
 ## Usuario padrão para o sistema:
 ``
-login: admin@sistema.com\n
+login: admin@sistema.com 
 senha: senha123 
 ``
 
