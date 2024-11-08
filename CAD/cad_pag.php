@@ -115,6 +115,15 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Pagamento</title>
+    <style>
+        .bg-body-tertiary {
+            --bs-bg-opacity: 1;
+            background-color: rgb(255 255 255 / 0%) !important;
+        }
+        body{
+            background-color: #d4ffea;
+        }
+    </style>
 </head>
 <body>
 
@@ -131,65 +140,71 @@
         </div>
     </nav>
 
+    <div class="container">
 
-    <h2>Cadastro de Pagamentos</h2>
-    <form method="post" action="">
-        <table>
-            <tr>
-                <th>Selecionar</th>
-                <th>Pedido</th>
-                <th>Data do Pedido</th>
-                <th>Valor Total</th>
-                <th>Valor Restante</th>
-            </tr>
-            <?php
-                $total_restante = 0;
-                while($row = $result->fetch_assoc()) {
-                    $pedido_id = $row['id'];
+        <h2>Cadastro de Pagamentos</h2>
+        <br><br>
+        <form method="post" action="">
+            <table class="table">
+                <tr>
+                    <th>Selecionar</th>
+                    <th>Pedido</th>
+                    <th>Data do Pedido</th>
+                    <th>Valor Total</th>
+                    <th>Valor Restante</th>
+                </tr>
+                <?php
+                    $total_restante = 0;
+                    while($row = $result->fetch_assoc()) {
+                        $pedido_id = $row['id'];
 
-                    // Busca o valor restante
-                    $sql_total = "SELECT SUM(preco) AS total_preco FROM pedido_produtos WHERE id_pedido = ".$row['id'].";";
-                    $res_total = $conn->query($sql_total);
-                    $totais = $res_total->fetch_assoc();
+                        // Busca o valor restante
+                        $sql_total = "SELECT SUM(preco) AS total_preco FROM pedido_produtos WHERE id_pedido = ".$row['id'].";";
+                        $res_total = $conn->query($sql_total);
+                        $totais = $res_total->fetch_assoc();
 
-                    $sql2 = "SELECT SUM(valor_pago) AS total_pago FROM pagamentos WHERE id_pedido = ".$row['id'].";";
-                    $res = $conn->query($sql2);
-                    $totais2 = $res->fetch_assoc();
+                        $sql2 = "SELECT SUM(valor_pago) AS total_pago FROM pagamentos WHERE id_pedido = ".$row['id'].";";
+                        $res = $conn->query($sql2);
+                        $totais2 = $res->fetch_assoc();
 
-                    $valor_restante = $totais['total_preco'] - $totais2['total_pago'];
+                        $valor_restante = $totais['total_preco'] - $totais2['total_pago'];
 
-                    echo "<tr>
-                            <td><input type='checkbox' name='pedidos[]' value='".$row['id']."'></td>
-                            <td>Nº ".$row['id']."</td>
-                            <td>".$row['data_formatada']."</td>
-                            <td>R$ ".number_format($totais['total_preco'], 2, ',', '.')."</td>
-                            <td>R$ ".number_format($valor_restante, 2, ',', '.')."</td>
-                          </tr>";
-                    $total_restante += $valor_restante;
-                }
-            ?>
-        </table>
-
-        <label for="forma_pagamento">Forma de Pagamento:</label>
-        <select name="forma_pagamento" id="forma_pagamento" required>
-            <option value=""></option>
-            <option value="Dinheiro">Dinheiro</option>
-            <option value="Pix">Pix</option>
-            <option value="Cartão Crédito">Cartão Crédito</option>
-            <option value="Cartão Débito">Cartão Débito</option>
-        </select>
-
-        <label for="valor_pago">Valor a ser pago:</label>
-        <input type="number" name="valor_pago" id="valor_pago" step="0.01" min="0" required>
-
-        <input type="submit" value="Cadastrar Pagamento">
-    </form>
-    <?php
-        if(isset($_SESSION['log'])){
-            echo "<b>" . $_SESSION['log'] . "</b><br><br>";
-            unset($_SESSION['log']);
-        }
-            
-    ?>
+                        echo "<tr>
+                                <td><input type='checkbox' name='pedidos[]' value='".$row['id']."'></td>
+                                <td>Nº ".$row['id']."</td>
+                                <td>".$row['data_formatada']."</td>
+                                <td>R$ ".number_format($totais['total_preco'], 2, ',', '.')."</td>
+                                <td>R$ ".number_format($valor_restante, 2, ',', '.')."</td>
+                            </tr>";
+                        $total_restante += $valor_restante;
+                    }
+                ?>
+            </table>
+            <h3>Pagamento</h3>
+            <br>
+            <label for="forma_pagamento">Forma de Pagamento:</label>
+            <br>
+            <select class="form-select" name="forma_pagamento" id="forma_pagamento" required>
+                <option value=""></option>
+                <option value="Dinheiro">Dinheiro</option>
+                <option value="Pix">Pix</option>
+                <option value="Cartão Crédito">Cartão Crédito</option>
+                <option value="Cartão Débito">Cartão Débito</option>
+            </select>
+            <br>
+            <label for="valor_pago">Valor a ser pago:</label>
+            <br>
+            <input class="form-control" type="number" name="valor_pago" id="valor_pago" step="0.01" min="0" required>
+            <br><br>
+            <input class="btn btn-success" type="submit" value="Cadastrar Pagamento">
+        </form>
+        <?php
+            if(isset($_SESSION['log'])){
+                echo "<b>" . $_SESSION['log'] . "</b><br><br>";
+                unset($_SESSION['log']);
+            }
+                
+        ?>
+    </div>
 </body>
 </html>

@@ -89,6 +89,15 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Estoque</title>
+    <style>
+        .bg-body-tertiary {
+            --bs-bg-opacity: 1;
+            background-color: rgb(255 255 255 / 0%) !important;
+        }
+        body{
+            background-color: #d4ffea;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar bg-body-tertiary">
@@ -104,41 +113,44 @@
         </div>
     </nav>
 
+    <div class="container">
 
-    <br><br><br>
-    <form action="./cad_estoque.php" method="post">
-        <label for="nomes">Nome:</label>
-        <select name="nomes" id="nomes" required>
-            <option value="" selected></option>
+        <h2>Cadastro de Estoque</h2>
+        <br><br><br>
+        <form action="./cad_estoque.php" method="post">
+            <label for="nomes">Nome:</label>
+            <select class="form-select" name="nomes" id="nomes" required>
+                <option value="" selected>Selecione um Produto</option>
+                <?php
+                    while($row = mysqli_fetch_assoc($result)){
+                        echo "<option value=".$row['id'].">".$row['nome']."</option>";
+                    }
+                ?>
+                <option value="outro">Adicionar Novo</option>
+            </select><br>
+
+            <!-- Caso Usuario selecionar Adicionar novo abilita o input para novo produto -->
+            <input type="text" class="form-control" name="nome" id="nome" style="display:none;" maxlength="200" placeholder="Digite o novo Produto"><br>
+            Valor de compra do produto <br>
+            <input type="number" class="form-control" step="0.01" name="compra" maxlength="200" placeholder="Valor de compra do produto" required><br><br>
+            Valor do frete <br>
+            <input type="number" class="form-control" step="0.01" name="frete" placeholder="Valor do frete se houver" required><br><br>
+            Valor sugerido para venda <br>
+            <input type="number" class="form-control" step="0.01" name="venda" placeholder="Valor de venda" required><br><br>
+            Data da compra <br>
+            <input type="date" class="form-control" name="dt_compra" required><br><br>
+            Qnt de itens comprados <br>
+            <input type="number" class="form-control" name="quantidade" placeholder="Quantidade comprada" required><br><br><br>
             <?php
-                while($row = mysqli_fetch_assoc($result)){
-                    echo "<option value=".$row['id'].">".$row['nome']."</option>";
+                if(isset($_SESSION['log'])){
+                    echo "<b>" . $_SESSION['log'] . "</b><br><br>";
+                    unset($_SESSION['log']);
                 }
+                
             ?>
-            <option value="outro">Adicionar Novo</option>
-        </select><br>
-
-        <!-- Caso Usuario selecionar Adicionar novo abilita o input para novo produto -->
-        <input type="text" name="nome" id="nome" style="display:none;" maxlength="200" placeholder="Digite o novo Produto"><br>
-        Valor de compra do produto <br>
-        <input type="number" step="0.01" name="compra" maxlength="200" placeholder="Valor de compra do produto" required><br><br>
-        Valor do frete <br>
-        <input type="number" step="0.01" name="frete" placeholder="Valor do frete se houver" required><br><br>
-        Valor sugerido para venda <br>
-        <input type="number" step="0.01" name="venda" placeholder="Valor de venda" required><br><br>
-        Data da compra <br>
-        <input type="date" name="dt_compra" required><br><br>
-        Qnt de itens comprados <br>
-        <input type="number" name="quantidade" placeholder="Quantidade comprada" required><br><br><br>
-        <?php
-            if(isset($_SESSION['log'])){
-                echo "<b>" . $_SESSION['log'] . "</b><br><br>";
-                unset($_SESSION['log']);
-            }
-            
-        ?>
-        <button type="submit">Salvar</button>
-    </form>
+            <button class="btn btn-success" type="submit">Salvar</button>
+        </form>
+    </div>
 
     <script>
         const select = document.getElementById('nomes');

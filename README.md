@@ -15,7 +15,7 @@ senha: senha123
     [✔] Cadastro de Clientes
     [✔] Cadastro de Pedidos
     [✔] Cadastro de Pagamentos
-    [] Stylos
+    [✔] Stylos
 
 
 Dashboard

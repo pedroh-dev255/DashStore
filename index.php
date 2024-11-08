@@ -129,7 +129,7 @@
             [✔] Cadastro de Clientes<br>
             [✔] Cadastro de Pedidos<br>
             [✔] Cadastro de Pagamentos<br>
-            [] Styles<br>
+            [✔] Styles<br>
         </p>
     </div>
 

@@ -52,50 +52,51 @@
         </div>
     </nav>
 
+    <div class="container">
+        <h2>Pedido Nº <?php echo $_GET['id_p'];?></h2>
+        <h4>Cliente: <?php echo $row['nome'];?></h4>
+        <h4>Status: <?php if($row['status_pedido'] == 0){ echo "Pagamento Pendente <br><br><a href='../CAD/cad_pag.php?id=".$row['id_cliente']."'>Adicionar Pagamento</a>"; }else { echo "Pago";}?></h4>
+        <br>
 
-    <h1>Pedido Nº <?php echo $_GET['id_p'];?></h1>
-    <h2>Cliente: <?php echo $row['nome'];?></h1>
-    <h3>Status: <?php if($row['status_pedido'] == 0){ echo "Pagamento Pendente <br><br><a href='../CAD/cad_pag.php?id=".$row['id_cliente']."'>Adicionar Pagamento</a>"; }else { echo "Pago";}?></h3>
-    <br>
+        <?php
+            $sql2="SELECT * FROM pedido_produtos INNER JOIN estoque JOIN produtos ON pedido_produtos.id_produto = estoque.id AND estoque.id_prod = produtos.id WHERE pedido_produtos.id_pedido = ?;";
+            $stmt2 = $conn->prepare($sql2);
+            $stmt2->bind_param('s', $_GET['id_p']);
+            $stmt2->execute();
 
-    <?php
-        $sql2="SELECT * FROM pedido_produtos INNER JOIN estoque JOIN produtos ON pedido_produtos.id_produto = estoque.id AND estoque.id_prod = produtos.id WHERE pedido_produtos.id_pedido = ?;";
-        $stmt2 = $conn->prepare($sql2);
-        $stmt2->bind_param('s', $_GET['id_p']);
-        $stmt2->execute();
-
-        $result2 = $stmt2->get_result();
-        $rows = mysqli_num_rows($result2);
-        
-
-
-    ?>
-    <table class="minha-tabela">
-        <tr>
-            <th colspan="4">Lista de Produtos</th>
-        </tr>
-        <tr>
-            <td>Produto</td>
-            <!-- <td>Quantidade</td> -->
-            <td>Valor</td>
-        </tr>
-        
-            <?php
-            $total=0;
-                while($row = mysqli_fetch_assoc($result2)){
-                    $total += $row['preco'];
-                    echo "<tr>";
-                    echo "<td>".$row['nome']."</td>";
-                    //echo "<td>".$row['quantidade']."</td>";
-                    echo "<td> R$ ".number_format($row['preco'],2,",",".")."</td>";
-                    echo "</tr>";
-                }
-            ?>
+            $result2 = $stmt2->get_result();
+            $rows = mysqli_num_rows($result2);
             
-        
-        <tr>
-            <td colspan="4">Valor Total: R$<?php echo number_format($total,2,",",".");?></td>
-        </tr>
-    </table>
+
+
+        ?>
+        <table class="minha-tabela">
+            <tr>
+                <th colspan="4">Lista de Produtos</th>
+            </tr>
+            <tr>
+                <td><b>Item</b></td>
+                <!-- <td>Quantidade</td> -->
+                <td><b>Valor</b></td>
+            </tr>
+            
+                <?php
+                $total=0;
+                    while($row = mysqli_fetch_assoc($result2)){
+                        $total += $row['preco'];
+                        echo "<tr>";
+                        echo "<td>".$row['nome']."</td>";
+                        //echo "<td>".$row['quantidade']."</td>";
+                        echo "<td> R$ ".number_format($row['preco'],2,",",".")."</td>";
+                        echo "</tr>";
+                    }
+                ?>
+                
+            
+            <tr>
+                <td colspan="4">Valor Total: R$<?php echo number_format($total,2,",",".");?></td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>

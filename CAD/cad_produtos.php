@@ -43,8 +43,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <title>Cadastrar Produtos</title>
+    <style>
+        .bg-body-tertiary {
+            --bs-bg-opacity: 1;
+            background-color: rgb(255 255 255 / 0%) !important;
+        }
+        body{
+            background-color: #dbdcff;
+        }
+    </style>
 </head>
-<body>
+<body background-color="#f5f5f5">
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
              <!-- Voltar ao dashboard -->
@@ -58,37 +67,44 @@
         </div>
     </nav>
     
-    <h1>Cadastrar Produtos</h1>
-    <form action="./cad_produtos.php" method="post">
-        <h3>cadastrar novo produto</h3>
-        <label for="nome">Nome:</label>
-        <input type="input" id="nome" name="nome" maxlength="200" required><br><br>
-        <button type="submit">Cadastrar</button>
-    </form>
+    <div class="container">
+        <h1>Cadastrar Produtos</h1>
+        <br>
+
+        <form action="./cad_produtos.php" method="post">
+            <h3>Cadastrar Novo Produto</h3>
+            <br>
+            <label for="nome">Nome do Produto:</label>
+            <input class="form-control" style="background-color: white;" type="input" id="nome" name="nome" maxlength="200" required><br><br>
+            <button class="btn btn-success" type="submit">Cadastrar</button>
+        </form>
+        
+        <br><br>
+        <table class="table">
+            
+            <thead>
+                <tr><td colspan="2"><h4>Produtos já cadastrados</h4></td></tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                while($row = mysqli_fetch_assoc($result)){
+                    echo "<tr>
+                            <td>".$row['id']."</td>
+                            <td>".$row['nome']."</td>
+                        </tr>";
+                }
+                echo "  <tr>
+                            <td colspan='2'> Total de Resultados: ". $rows ."</td>
+                        </tr>";
+                ?>
+            </tbody>
+        </table>
+    </div>
     
-    
-    <table>
-        <caption>Produtos já cadastrados</caption>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            while($row = mysqli_fetch_assoc($result)){
-                echo "<tr>
-                        <td>".$row['id']."</td>
-                        <td>".$row['nome']."</td>
-                    </tr>";
-            }
-            echo "  <tr>
-                        <td colspan='2'> Total de Resultados: ". $rows ."</td>
-                    </tr>";
-            ?>
-        </tbody>
-    </table>
     
 </body>
 </html>

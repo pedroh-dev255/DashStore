@@ -81,6 +81,14 @@
             color: white;
             font-weight: bold;
         }
+
+        .bg-body-tertiary {
+            --bs-bg-opacity: 1;
+            background-color: rgb(255 255 255 / 0%) !important;
+        }
+        body{
+            background-color: #ffd4e5;
+        }
     </style>
 </head>
 <body>

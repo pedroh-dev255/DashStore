@@ -120,6 +120,16 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adicionar Cliente</title>
+    <style>
+        .bg-body-tertiary {
+            --bs-bg-opacity: 1;
+            background-color: rgb(255 255 255 / 0%) !important;
+        }
+        body{
+            background-color: #ffd4e5;
+        }
+    </style>
+    
 </head>
 <body>
     <nav class="navbar bg-body-tertiary">

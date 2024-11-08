@@ -115,21 +115,33 @@ if (isset($_GET['action'])) {
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="../style/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="../style/cad_produtos.css">
-    <link rel="stylesheet" href="./style/geral.css">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Novo Pedido</title>
+    <style>
+        .bg-body-tertiary {
+            --bs-bg-opacity: 1;
+            background-color: rgb(255 255 255 / 0%) !important;
+        }
+        body{
+            background-color: #d4ffea;
+        }
+    </style>
     <script>
         let produtosSelecionados = {};
 
         // Carrega produtos não vendidos e lista em uma tabela
-        function loadProdutos() {
+        function loadProdutos(query = '') {
             fetch(window.location.href + '&action=listar_produtos')
             .then(response => response.json())
             .then(data => {
                 let tabela = document.getElementById('produtosDisponiveis').getElementsByTagName('tbody')[0];
-                tabela.innerHTML = '';
+                tabela.innerHTML = ''; // Limpa a tabela antes de adicionar os produtos filtrados
+
+                // Filtra os produtos conforme o texto da busca
+                data = data.filter(produto => produto.nome.toLowerCase().includes(query.toLowerCase()));
 
                 data.forEach(produto => {
                     let row = tabela.insertRow();
@@ -225,6 +237,18 @@ if (isset($_GET['action'])) {
                 location.reload(); // Recarrega a página
             });
         }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Garantir que o elemento esteja disponível no DOM antes de adicionar o evento
+            const searchInput = document.getElementById('search');
+            
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    let query = this.value.trim(); // Pega o texto inserido no campo de busca
+                    loadProdutos(query); // Carrega os produtos filtrados
+                });
+            }
+        });
     </script>
 </head>
 <body onload="loadProdutos()">
@@ -240,42 +264,52 @@ if (isset($_GET['action'])) {
             </form>
         </div>
     </nav>
+    <div class="container">
 
-    
-    <h2>Cadastrando novo pedido para: <?php echo $row['nome']; ?></h2>
+        <h2>Cadastro de Pagamento</h2>
+        <br>
+        <h4>Cadastrando novo pedido para: <?php echo $row['nome']; ?></h4>
+        <br>
+        <a href="./cad_estoque.php">Ir para cadastro de produtos</a>
+        <br><br>
+        <!-- Tabela de produtos disponíveis (não vendidos) -->
+        <h5>Produtos em Estoque</h5>
 
-    <!-- Tabela de produtos disponíveis (não vendidos) -->
-    <h3>Produtos Disponíveis</h3>
-    <a href="./cad_estoque.php">Ir para cadastro de produtos</a>
-    <table id="produtosDisponiveis" border="1">
-        <thead>
-            <tr>
-                <th>Produto</th>
-                <th>Preço de Venda</th>
-                <th>Ação</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+        <br>
+        <input type="text" class="form-control" name="search" id="search" placeholder="Buscar produtos">
+        <br>
+        
+        <table class="table table-bordered" id="produtosDisponiveis" border="1">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Produto</th>
+                    <th>Preço de Venda</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
 
-    <!-- Tabela de produtos adicionados -->
-    <h3>Produtos Selecionados</h3>
-    <table id="tabelaPedidos" border="1">
-        <thead>
-            <tr>
-                <th>Produto</th>
-                <th>Preço Unitário</th>
-                <th>Subtotal</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+        <!-- Tabela de produtos adicionados -->
+        <h3>Produtos Selecionados</h3>
+        <table class="table" id="tabelaPedidos" border="1">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Produto</th>
+                    <th>Preço Unitário</th>
+                    <th>Subtotal</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
 
-    <!-- Valor total -->
-    <h3>Total: R$ <span id="valorTotal">0.00</span></h3>
+        <!-- Valor total -->
+        <h3>Total: R$ <span id="valorTotal">0.00</span></h3>
 
-    <!-- Botão para fechar o pedido -->
-    <button onclick="fecharPedido()">Fechar Pedido</button>
+        <!-- Botão para fechar o pedido -->
+         <br>
+        <button style="display: flex; justify-content: flex-end" class="btn btn-warning" onclick="fecharPedido()">Fechar Pedido</button>
+    </div>
 </body>
 </html>

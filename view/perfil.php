@@ -95,6 +95,14 @@
             background-color: #af26ff;
         }
 
+        .bg-body-tertiary {
+            --bs-bg-opacity: 1;
+            background-color: rgb(255 255 255 / 0%) !important;
+        }
+        body{
+            background-color: #d4ffea;
+        }
+
     </style>
 </head>
 <body>
@@ -150,7 +158,7 @@
                 ";
             
             if(isset($total)){
-                echo "Valor Total em Aberto: R$ " . number_format($total,2,",",".");
+                echo "<b>Valor Total em Aberto: R$ " . number_format($total,2,",",".") . "</b>";
             }
 
             echo "<br><br><h2>Pedidos:</h2>";
@@ -172,6 +180,7 @@
             $rows = mysqli_num_rows($result);
             ?>
         <table class="table">
+            <tr><td colspan="3">Pedidos</td></tr>
             <tr>
                 <td>Id Pedido</td>
                 <td>Data do Pedido</td>
@@ -192,13 +201,13 @@
                             <td>".$row['id']."</td>
                             <td>".$row['data_formatada']."</td>
                             <td>".$status."</td>
-                            <td>R$ ".number_format($restante,2,",",".")."</td>";
+                        </tr>";
                 //echo "<a href='./pedidos.php?id_p=".$row['id']."'> Pedido N° " . $row['id'] . " | " . $row['data_formatada'] . " | " . $status . "</a>";
-                echo "<br>";
+                //echo "<br>";
             }
 
         ?>
-        </table>
+        </table>    
     </div>
 </body>
 </html>
