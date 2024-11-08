@@ -115,6 +115,7 @@
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="../style/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="./style/geral.css">
+    <link rel="stylesheet" href="./style/form.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -133,27 +134,29 @@
             </form>
         </div>
     </nav>
-    
-    <h2>Cadastrar Cliente</h2>
+    <div class="container">
+        <h2>Cadastrar Cliente</h2>
+        <br><br>
 
-    <form action="./cad_clientes.php" method="POST">
-        Nome:*
-        <input type="text" name="nome" maxlength="200" placeholder='nome' required><br><br>
-        CPF:
-        <input type="text" id='cpf' name="cpf" minlength="14" maxlength="15" placeholder='CPF'><br><br>
-        Endereço:
-        <input type="text" name="endereco" maxlength="400" placeholder='Endereço'><br><br>
-        Telefone:*
-        <input type="text" id='tel' name="telefone" minlength="15" maxlength="20" placeholder='Telefone' required><br><br>
+        <form action="./cad_clientes.php" method="POST">
+            Nome:*
+            <input type="text" class="form-control" name="nome" maxlength="200" placeholder='nome' required><br><br>
+            CPF:
+            <input type="text" class="form-control" id='cpf' name="cpf" minlength="14" maxlength="14" placeholder='CPF'><br><br>
+            Endereço:
+            <input type="text" class="form-control" name="endereco" maxlength="400" placeholder='Endereço'><br><br>
+            Telefone:*
+            <input type="text" class="form-control" id='tel' name="telefone" minlength="15" maxlength="15" placeholder='Telefone' required><br><br>
 
-        <button type="submit">Cadastrar</button>
-    </form>
-    <?php
-         if(isset($_SESSION['log'])){
-            echo "<b>" . $_SESSION['log'] . "</b><br><br>";
-            unset($_SESSION['log']);
-        }
-    ?>
+            <button class="btn btn-success" type="submit">Cadastrar</button>
+        </form>
+        <?php
+            if(isset($_SESSION['log'])){
+                echo "<b>" . $_SESSION['log'] . "</b><br><br>";
+                unset($_SESSION['log']);
+            }
+        ?>
+    </div>
     <!-- Mascara para CPF e telefone -->
     <script>
         function capitalizeWords(nome) {

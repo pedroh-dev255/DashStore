@@ -67,6 +67,35 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cliente</title>
+    <style>
+        .botoes li {
+            margin-right: 10px;
+        }
+
+        .botoes li a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #e7d8e9;
+            color: rgb(46, 46, 46);
+            text-decoration: none;
+            border-radius: 20px;
+            position: relative;
+            transition: background-color 0.3s ease;
+            background-repeat: no-repeat;
+            background-position: 10px center; /* Ajusta a posição do ícone */
+            background-size: 20px; /* Ajusta o tamanho do ícone */
+            padding-left: 40px; /* Espaço para o ícone */
+        }
+
+        .botoes li:nth-child(1) a {
+            background-image: url('../style/img/produto.png'); /* URL do primeiro ícone */
+        }
+
+        .botoes li a:hover {
+            background-color: #af26ff;
+        }
+
+    </style>
 </head>
 <body>
     <nav class="navbar bg-body-tertiary">
@@ -82,14 +111,15 @@
         </div>
     </nav>
 
-    <div class = "box">
+    <div class = "container">
         <!-- Informações do Perfil -->
         <?php
             $row = mysqli_fetch_assoc($result);
 
-            echo "<table>
+            echo "<table class='table'>
                     <tr>
                         <thcolspan='2'><h2>".$row['nome']."</h2></th>
+                        <br>    
                     </tr>
                     <tr>
                         <td>CPF:</td>
@@ -117,15 +147,16 @@
                         <td>".$row['telefone']."</td>
                     </tr>
                 </table>
-                <br>
-                <a href='seila?id=".$_GET['id']."'>Editar Perfil do Cliente</a><br><br>";
+                ";
             
             if(isset($total)){
                 echo "Valor Total em Aberto: R$ " . number_format($total,2,",",".");
             }
 
             echo "<br><br><h2>Pedidos:</h2>";
-            echo "<a href='../CAD/cad_pedido.php?id=".$_GET['id']."'>Adicionar Pedido</a>";
+            echo "<ol class='botoes'>
+                    <li><a href='../CAD/cad_pedido.php?id=".$_GET['id']."'>Adicionar Pedido</a></li>
+                    </ol>";
             echo "<br><br>";
 
              
@@ -139,18 +170,35 @@
             $result = $stmt->get_result();
         
             $rows = mysqli_num_rows($result);
+            ?>
+        <table class="table">
+            <tr>
+                <td>Id Pedido</td>
+                <td>Data do Pedido</td>
+                <td>Status</td>
+            </tr>
 
+        
+
+            <?php
             while($row = mysqli_fetch_assoc($result)){
                 if($row['status'] == 1){
                     $status = "Pedido Pago";
                 }else{
                     $status = "Valor em Aberto";
                 }
-                echo "<a href='./pedidos.php?id_p=".$row['id']."'> Pedido N° " . $row['id'] . " | " . $row['data_formatada'] . " | " . $status . "</a>";
+
+                echo "<tr onclick=\"window.location.href='./pedidos.php?id_p=".$row['id']."';\" style='cursor:pointer;'>
+                            <td>".$row['id']."</td>
+                            <td>".$row['data_formatada']."</td>
+                            <td>".$status."</td>
+                            <td>R$ ".number_format($restante,2,",",".")."</td>";
+                //echo "<a href='./pedidos.php?id_p=".$row['id']."'> Pedido N° " . $row['id'] . " | " . $row['data_formatada'] . " | " . $status . "</a>";
                 echo "<br>";
             }
 
         ?>
+        </table>
     </div>
 </body>
 </html>
