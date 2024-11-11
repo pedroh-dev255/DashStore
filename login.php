@@ -8,12 +8,24 @@
         exit();
     }
 
-    function logAttempt($email) {
-        $logFile = 'login_attempts.log';
-        $timestamp = date('Y-m-d H:i:s');
-        $entry = "[$timestamp] Email: $email\n";
-    
-        file_put_contents($logFile, $entry, FILE_APPEND | LOCK_EX);
+    function logAttempt($email, $conn) {
+        $ipAddress = $_SERVER['REMOTE_ADDR'];
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        
+        // Preparar a consulta com placeholders
+        $stmt = $conn->prepare("INSERT INTO login_attempts (email, ip_address, user_agent) VALUES (?, ?, ?)");
+        
+        // Verificar se a preparação da consulta foi bem-sucedida
+        if ($stmt === false) {
+            die('Erro na preparação da consulta: ' . $mysqli->error);
+        }
+        
+        // Associar parâmetros e executar a consulta
+        $stmt->bind_param("sss", $email, $ipAddress, $userAgent);
+        $stmt->execute();
+        
+        // Fechar a declaração
+        $stmt->close();
     }
 
     if(isset($_POST['login']) && isset($_POST['pass'])){
@@ -27,7 +39,7 @@
         $stmt->execute();
         $result = $stmt->get_result();
 
-        logAttempt($_POST['login']);
+        logAttempt($_POST['login'], $conn);
 
         // Verifica se o usuário foi encontrado
         if ($result->num_rows > 0) {

@@ -1,10 +1,10 @@
 /* Definir a timezone do Brasil */
 SET time_zone = "-03:00";
 
-create DATABASE controle_lojinha
+create DATABASE DashStore
     CHARACTER SET utf8mb4 
     COLLATE utf8mb4_general_ci;
-USE controle_lojinha;
+USE DashStore;
 
 
 CREATE TABLE usuarios (
@@ -81,4 +81,13 @@ CREATE TABLE pagamentos (
   forma_pagamento VARCHAR(20) NOT NULL,
   PRIMARY KEY(id),
   FOREIGN KEY(id_pedido) REFERENCES pedidos(id)
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+
+CREATE TABLE login_attempts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255),
+    ip_address VARCHAR(45),
+    user_agent TEXT,
+    attempt_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
