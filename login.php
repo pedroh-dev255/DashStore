@@ -8,6 +8,14 @@
         exit();
     }
 
+    function logAttempt($email) {
+        $logFile = 'login_attempts.log';
+        $timestamp = date('Y-m-d H:i:s');
+        $entry = "[$timestamp] Email: $email\n";
+    
+        file_put_contents($logFile, $entry, FILE_APPEND | LOCK_EX);
+    }
+
     if(isset($_POST['login']) && isset($_POST['pass'])){
         // Carrega conexão com banco de dados
         require("./db.php");
@@ -18,6 +26,8 @@
         $stmt->bind_param('s', $_POST['login']);
         $stmt->execute();
         $result = $stmt->get_result();
+
+        logAttempt($_POST['login']);
 
         // Verifica se o usuário foi encontrado
         if ($result->num_rows > 0) {
