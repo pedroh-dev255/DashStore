@@ -49,15 +49,19 @@
             if (password_verify($_POST['pass'], $user['senha'])) {
                 // Salva os dados do usuário na sessão
                 $_SESSION['login'] = $user['id'];
+                //nivel de acesso
+                $_SESSION['nivel'] = $user['nivel'];
                 
                 // Redireciona para o dashboard
                 header("Location: ./");
                 exit();
             } else {
                 $_SESSION['log'] = "Senha incorreta";
+                    $_SESSION['log1'] = "error"; // success , warning, error
             }
         } else {
             $_SESSION['log'] = "Usuário não encontrado";
+            $_SESSION['log1'] = "error"; // success , warning, error
         }
         
     }
@@ -72,15 +76,15 @@
     <link rel="stylesheet" href="./style/geral.css">
     <link rel="stylesheet" href="./style/login.css">
     <title>Login</title>
-    <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "ovixemoovg");
-    </script>
+    <link rel="stylesheet" href="./style/popup.css">
+    <script src="./js/all.js"></script>
 </head>
 <body>
+    <!-- POPUP -->
+    <div class="popin-notification" id="popin">
+        <p id="popin-text"></p>
+        <button onclick="closePopin()">Fechar</button>
+    </div>
 
         <div class="page">
             
@@ -93,8 +97,8 @@
                 <button type="submit" class="btn">Entrar</button>
                 <?php
                     if(isset($_SESSION['log'])){
-                        echo $_SESSION['log'];
-                        unset($_SESSION['log']);
+                        echo "<script >showPopin('".$_SESSION['log']."', '".$_SESSION['log1']."');</script>";
+                        unset($_SESSION['log'], $_SESSION['log1']);
                     }
                 ?>
             </form>

@@ -12,6 +12,7 @@ CREATE TABLE usuarios (
   nome varchar(40) NOT NULL,
   email varchar(200) NOT NULL,
   senha varchar(200) NOT NULL,
+  nivel int NOT NULL,
   PRIMARY KEY(id)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
@@ -22,7 +23,7 @@ login: admin@sistema.com
 senha: senha123
 
  */
-INSERT INTO `usuarios`(`nome`, `email`, `senha`) VALUES ("Admin","admin@sistema.com","$2y$10$ly6xgRjCMpUsc574bqP5KO3uSKXP6Ly07F914d3ijz9CDIFRtpb.2");
+INSERT INTO `usuarios`(`nome`, `email`, `senha`, `nivel`) VALUES ("Admin","admin@sistema.com","$2y$10$ly6xgRjCMpUsc574bqP5KO3uSKXP6Ly07F914d3ijz9CDIFRtpb.2", 3);
 
 CREATE TABLE produtos (
   id int AUTO_INCREMENT NOT NULL,

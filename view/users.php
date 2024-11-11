@@ -16,19 +16,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../style/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="../style/cad_produtos.css">
-    <link rel="stylesheet" href="./style/geral.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <title>Usuarios</title>
-    <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "ovixemoovg");
-    </script>
+    <link rel="stylesheet" href="../style/popup.css">
+    <script src="../js/all.js"></script>
 </head>
 <body style="background-color: #cedbd7;">
+
+    <!-- POPUP -->
+    <div class="popin-notification" id="popin">
+        <p id="popin-text"></p>
+        <button onclick="closePopin()">Fechar</button>
+    </div>
+    
+
     <nav class="navbar">
         <div class="container-fluid">
              <!-- Voltar ao dashboard -->
@@ -51,6 +53,7 @@
             <tr>
                 <th>Nome</th>
                 <th>Email</th>
+                <th>Nivel de Acesso</th>
                 <th>Editar Perfil</th>
                 <th>Deletar</th>
             </tr>
@@ -66,8 +69,17 @@
                 while($row = mysqli_fetch_assoc($result)){
                     echo "<tr>
                             <td>".$row['nome']."</td>
-                            <td>".$row['email']."</td>
-                            <td><a href='./users.php?edit=".$row['id']."'>Editar</a></td>";
+                            <td>".$row['email']."</td>";
+                    if($row['nivel'] == 3){
+                        echo "<td>Administrador</td>";
+                    }else if($row['nivel'] == 2){
+                        echo "<td>Usuario</td>";
+                    }else if($row['nivel'] == 1){
+                        echo "<td>Visualizador</td>";
+                    }else {
+                        echo "<td>Nivel de Acesso não definido</td>";
+                    }
+                    echo "<td><a href='./users.php?edit=".$row['id']."'>Editar</a></td>";
                     if($rows>1){
                         echo "<td><a href='./users.php?del=".$row['id']."'>Deletar</a></td>";
                     }else{
@@ -84,7 +96,10 @@
         <br>
         
         <?php
-        //modo de edição
+
+        
+
+        //modo de delete
         if(isset($_GET['del'])){
             $sql1 = "SELECT * FROM usuarios WHERE id = ".$_GET['del']." ORDER BY nome";
             $stmt1 = $conn->prepare($sql1);
@@ -99,6 +114,7 @@
                 $stmt3->execute();
 
                 $_SESSION['log'] = "Usuario deletado!";
+                $_SESSION['log1'] = "success";
                 
                 header("Location: users.php");
                 exit();
@@ -110,6 +126,7 @@
                         <button class='btn btn-danger' type='submit'>Deletar Conta</button>
                         <a class='btn btn-warning' href='./users.php'>Cancelar Delete</a>
                     </form>
+                    <br><br>
             ";
             
         }
@@ -128,18 +145,25 @@
                 //Encriptação da senha
                 $senhaHash = password_hash($_POST['senha1'], PASSWORD_BCRYPT);
 
-                $update = "UPDATE `usuarios` SET `nome`=?,`email`=?,`senha`=? WHERE id =" . $_GET['edit'];
+                $update = "UPDATE `usuarios` SET `nome`=?,`email`=?,`senha`=?, `nivel`=? WHERE id =" . $_GET['edit'];
                 $stmt2 = $conn->prepare($update);
-                $stmt2->bind_param('sss', $_POST['nome'], $_POST['email'], $senhaHash);
+                $stmt2->bind_param('sssi', $_POST['nome'], $_POST['email'], $senhaHash, $_POST['nivel']);
                 $stmt2->execute();
 
-                $_SESSION['log'] = "Usuario atualizado";
+                $_SESSION['log'] = "Usuario Editado!";
+                $_SESSION['log1'] = "success";
+
+                //caso esteja alterando o proprio usuario, o nivel de acesso ja é atualizado
+                if($_SESSION['login'] == $_GET['edit']){
+                    $_SESSION['nivel'] = $_POST['nivel'];
+                }
                 
                 header("Location: users.php");
                 exit();
 
             }else if(isset($_POST['senha1']) && isset($_POST['senha2']) && $_POST['senha1'] != $_POST['senha2']){
-                $_SESSION['log'] = "senhas não Coincidem!";
+                $_SESSION['log'] = "Senhas não coincidem";
+                $_SESSION['log1'] = "warning";
             }
             
             echo  "<h2>Modo Edição</h2>
@@ -147,15 +171,28 @@
                     <form action='./users.php?edit=".$row1['id']."' method='post'>
                         <label for='nome' class='form-label'>Nome:</label>
                         <input id='nome' class='form-control' type='text' name='nome' value='".$row1['nome']."' maxlength='40' required><br>
+                        
                         <label for='email' class='form-label'>Email:</label>
                         <input id='email' class='form-control' type='email' name='email' value='".$row1['email']."' maxlength='200' required><br>
+                        
+                        <label for='nivel' class='form-label'>Nivel de Acesso:</label>
+                        <select class='form-select' name='nivel' id='nivel' required>
+                            <option selected value=''>Selecione um Nivel de Acesso</option>
+                            <option value='1'>Visualizador - Usuario que apenas visualiza as informações do sistema</option>
+                            <option value='2'>Usuario - Usuario que consegue Visualizar/alterar/adicionar/excluir informações do sistema</option>
+                            <option value='3'>Administrador - Usuario que tem acesso total ao sistema</option>
+                        </select>
+                        
                         <label for='senha1' class='form-label'>Senha:</label>
                         <input id='senha1' class='form-control' type='password' name='senha1' placeholder='Senha' maxlength='40' required><br>
+                        
                         <label for='senha2' class='form-label'>Repitir a senha:</label>
                         <input id='senha2' class='form-control' type='password' name='senha2' placeholder='Repedir a senha' maxlength='40' required><br><br>
+                        
                         <button class='btn btn-success' type='submit'>Salvar Edição</button>
                         <a class='btn btn-warning' href='./users.php'>Cancelar Edição</a>
                     </form>
+                    <br><br>
             ";
             
         }
@@ -175,21 +212,24 @@
                         //Encriptação da senha
                         $senhaHash = password_hash($_POST['senha1'], PASSWORD_BCRYPT);
 
-                        $update = "INSERT INTO usuarios(nome,email,senha) VALUES (?,?,?)";
+                        $update = "INSERT INTO usuarios(nome,email,senha,nivel) VALUES (?,?,?,?)";
                         $stmt2 = $conn->prepare($update);
-                        $stmt2->bind_param('sss', $_POST['nome'], $_POST['email'], $senhaHash);
+                        $stmt2->bind_param('sssi', $_POST['nome'], $_POST['email'], $senhaHash, $_POST['nivel']);
                         $stmt2->execute();
 
                         $_SESSION['log'] = "Usuario cadastrado";
+                        $_SESSION['log1'] = "success";
                         
                         header("Location: users.php");
                         exit();
 
                     }else if(isset($_POST['senha1']) && isset($_POST['senha2']) && $_POST['senha1'] != $_POST['senha2']){
                         $_SESSION['log'] = "senhas não Coincidem!";
+                        $_SESSION['log1'] = "warning";
                     }
                 }else {
                     $_SESSION['log'] = "Email já cadastrado!";
+                    $_SESSION['log1'] = "error"; // success , warning, error
                 }
             }
             
@@ -197,22 +237,35 @@
                     <form action='./users.php?novo=0' method='post'>
                         <label for='nome' class='form-label'>Nome:</label>
                         <input id='nome' class='form-control' type='text' name='nome' placeholder='Nome' maxlength='40' required><br>
+                        
                         <label for='email' class='form-label'>Email:</label>
                         <input id='email' class='form-control' type='email' name='email' placeholder='Email' maxlength='200' required><br>
+                        
+                        <label for='nivel' class='form-label'>Nivel de Acesso:</label>
+                        <select class='form-select' name='nivel' id='nivel' required>
+                            <option value=''>Selecione um Nivel de Acesso</option>
+                            <option value='1'>Visualizador - Usuario que apenas visualiza as informações do sistema</option>
+                            <option value='2'>Usuario - Usuario que consegue Visualizar/alterar/adicionar/excluir informações do sistema</option>
+                            <option value='3'>Administrador - Usuario que tem acesso total ao sistema</option>
+                        </select>
+
                         <label for='senha1' class='form-label'>Senha:</label>
                         <input id='senha1' class='form-control' type='password' name='senha1' placeholder='Senha' maxlength='40' required><br>
+                        
                         <label for='senha2' class='form-label'>Repitir a senha:</label>
                         <input id='senha2' class='form-control' type='password' name='senha2' placeholder='Repedir a senha' maxlength='40' required><br><br>
+                        
                         <button class='btn btn-success' type='submit'>Cadastrar</button>
                         <a class='btn btn-warning' href='./users.php'>Cancelar Adição</a>
                     </form>
+                    <br><br>
             ";
             
         }
 
         if(isset($_SESSION['log'])){
-            echo "<br><b>" . $_SESSION['log'] . "</b><br>";
-            unset($_SESSION['log']);
+            echo "<script >showPopin('".$_SESSION['log']."', '".$_SESSION['log1']."');</script>";
+            unset($_SESSION['log'], $_SESSION['log1']);
         }
 
         ?>

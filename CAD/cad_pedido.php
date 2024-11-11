@@ -84,13 +84,17 @@ if (isset($_GET['action'])) {
                         $stmt->bind_param('i', $produto['id']);
                         $stmt->execute();
                     } else {
-                        echo "Erro ao salvar o produto no pedido.";
+                        $_SESSION['log'] = "Erro ao salvar o produto no pedido.";
+                        $_SESSION['log1'] = "error"; // success , warning, error
                         exit();
                     }
                 }
-                echo "Pedido cadastrado com sucesso!";
+                $_SESSION['log'] = "Pedido cadastrado com sucesso!";
+                $_SESSION['log1'] = "success"; // success , warning, error
             } else {
-                echo "Erro ao gerar o pedido.";
+                $_SESSION['log'] = "Erro ao gerar o pedido.";
+                $_SESSION['log1'] = "error"; // success , warning, error
+                
             }
     
             // Commit da transação
@@ -100,7 +104,8 @@ if (isset($_GET['action'])) {
         } catch (Exception $e) {
             // Em caso de erro, desfaz as alterações
             $conn->rollback();
-            echo "Erro ao cadastrar o pedido: " . $e->getMessage();
+            $_SESSION['log'] = "Erro ao cadastrar o pedido: " . $e->getMessage();
+            $_SESSION['log1'] = "error"; // success , warning, error
         }
     
         exit();
@@ -129,13 +134,8 @@ if (isset($_GET['action'])) {
             background-color: #d4ffea;
         }
     </style>
-        <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "ovixemoovg");
-    </script>
+    <link rel="stylesheet" href="../style/popup.css">
+    <script src="../js/all.js"></script>
     <script>
         let produtosSelecionados = {};
 
@@ -259,6 +259,11 @@ if (isset($_GET['action'])) {
     </script>
 </head>
 <body onload="loadProdutos()">
+    <!-- POPUP -->
+    <div class="popin-notification" id="popin">
+        <p id="popin-text"></p>
+        <button onclick="closePopin()">Fechar</button>
+    </div>
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
              <!-- Voltar ao dashboard -->
@@ -318,5 +323,11 @@ if (isset($_GET['action'])) {
          <br>
         <button style="display: flex; justify-content: flex-end" class="btn btn-warning" onclick="fecharPedido()">Fechar Pedido</button>
     </div>
+    <?php
+        if(isset($_SESSION['log'])){
+            echo "<script >showPopin('".$_SESSION['log']."', '".$_SESSION['log1']."');</script>";
+            unset($_SESSION['log'], $_SESSION['log1']);
+        }
+    ?>
 </body>
 </html>

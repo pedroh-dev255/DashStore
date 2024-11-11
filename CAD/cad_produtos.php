@@ -39,17 +39,10 @@
     <link rel="shortcut icon" href="../style/favicon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../style/cad_produtos.css">
-    <link rel="stylesheet" href="./style/geral.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
     <title>Cadastrar Produtos</title>
-    <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "ovixemoovg");
-    </script>
+    <link rel="stylesheet" href="../style/popup.css">
+    <script src="../js/all.js"></script>
     <style>
         .bg-body-tertiary {
             --bs-bg-opacity: 1;
@@ -61,6 +54,11 @@
     </style>
 </head>
 <body background-color="#f5f5f5">
+    <!-- POPUP -->
+    <div class="popin-notification" id="popin">
+        <p id="popin-text"></p>
+        <button onclick="closePopin()">Fechar</button>
+    </div>
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
              <!-- Voltar ao dashboard -->
@@ -112,6 +110,11 @@
         </table>
     </div>
     
-    
+    <?php
+        if(isset($_SESSION['log'])){
+            echo "<script >showPopin('".$_SESSION['log']."', '".$_SESSION['log1']."');</script>";
+            unset($_SESSION['log'], $_SESSION['log1']);
+        }
+    ?>
 </body>
 </html>

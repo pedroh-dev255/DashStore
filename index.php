@@ -29,16 +29,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Dashboard</title>
-    <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "ovixemoovg");
-    </script>
+    <link rel="stylesheet" href="./style/popup.css">
+    <script src="./js/all.js"></script>
 </head>
 <body>
-
+    <!-- POPUP -->
+    <div class="popin-notification" id="popin">
+        <p id="popin-text"></p>
+        <button onclick="closePopin()">Fechar</button>
+    </div>
     <nav class="navbar">
         <div class="container-fluid">
             <!-- Botão para deslogar -->
@@ -276,5 +275,12 @@
             totalChartConfig
         );
     </script>
+
+    <?php
+        if(isset($_SESSION['log'])){
+            echo "<script >showPopin('".$_SESSION['log']."', '".$_SESSION['log1']."');</script>";
+            unset($_SESSION['log'], $_SESSION['log1']);
+        }
+    ?>
 </body>
 </html>

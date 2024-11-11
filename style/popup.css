@@ -1,0 +1,42 @@
+.popin-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .popin-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .popin-notification button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  /* Variações de cores */
+  .popin-success {
+    background-color: #4caf50;
+  }
+  
+  .popin-warning {
+    background-color: #ff9800;
+  }
+  
+  .popin-error {
+    background-color: #f44336;
+  }
+  
