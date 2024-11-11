@@ -8,6 +8,15 @@
         header("Location: ../login.php");
     }
 
+    //Verifica se o usuario tem permissão de admin
+    if($_SESSION['nivel'] !== 3){
+        $_SESSION['log'] = "Usuario sem permissão para essa area!";
+        $_SESSION['log1'] = "warning";
+        header("Location: ../");
+        exit();
+    }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">

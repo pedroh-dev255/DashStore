@@ -6,15 +6,25 @@
     //Se não logado, redireciona para a tela de login
     if(!isset($_SESSION['login'])){
         header("Location: ./login.php");
+        exit();
     }
 
     //carrega as vareaveis de ambiente
     $env = parse_ini_file('./.env');
 
+    //Verifica se o usuario esta com os niveis de acesso configurado
+    if(!isset($_SESSION['nivel']) || $_SESSION['nivel'] == "" || $_SESSION['nivel'] == "0" || $_SESSION['nivel'] == null){
+        $_SESSION['log'] = "Usuario sem nivel de acesso definido! Recorra a um administrador do sistema!";
+        $_SESSION['log1'] = "error";
+        unset($_SESSION['login']);
+        header("Location: ./login.php");
+        exit();
+    }
 
     if(isset($_GET['logoff']) && $_GET['logoff'] =='true' ){
         session_destroy();
         header("Location: ./login.php");
+        exit();
     }
 
 
@@ -138,6 +148,12 @@
             [✔] Styles<br>
         </p>
     </div>
+    <?php
+        if(isset($_SESSION['log'])){
+            echo "<script >showPopin('".$_SESSION['log']."', '".$_SESSION['log1']."');</script>";
+            unset($_SESSION['log'], $_SESSION['log1']);
+        }
+    ?>
 
     <script>
         // Gráfico 1: Formas de Pagamento (Rosquinha)
@@ -276,11 +292,6 @@
         );
     </script>
 
-    <?php
-        if(isset($_SESSION['log'])){
-            echo "<script >showPopin('".$_SESSION['log']."', '".$_SESSION['log1']."');</script>";
-            unset($_SESSION['log'], $_SESSION['log1']);
-        }
-    ?>
+    
 </body>
 </html>

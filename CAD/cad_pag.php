@@ -23,6 +23,7 @@
         $ids_pedidos = $_POST['pedidos'];
         $forma_pagamento = $_POST['forma_pagamento'];
         $valor_pago = floatval($_POST['valor_pago']);
+
         
         // Recupera valores dos pedidos selecionados
         $total_restante = 0;
@@ -56,6 +57,7 @@
         // Verifica se o valor inserido é válido
         if ($valor_pago <= 0 || $valor_pago > $total_restante) {
             $_SESSION['log'] = "Valor de pagamento inválido!";
+            $_SESSION['log1'] = "error";
             header("Location: ./cad_pag.php?id=".$_GET['id']);
             exit;
         }
@@ -71,9 +73,9 @@
                 $valor_pago -= $valor_pedido;
 
                 $sql_pagamento = "INSERT INTO pagamentos (id_pedido, valor_pago, data_pagamento, forma_pagamento)
-                                  VALUES (?, ?, CURDATE(), ?)";
+                                  VALUES (?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql_pagamento);
-                $stmt->bind_param("ids", $pedido['id'], $valor_pedido, $forma_pagamento);
+                $stmt->bind_param("idss", $pedido['id'], $valor_pedido, $_POST['dt_pag'], $forma_pagamento);
                 $stmt->execute();
 
                 // Verifica se o pedido foi completamente quitado
@@ -197,18 +199,22 @@
                 <option value="Cartão Débito">Cartão Débito</option>
             </select>
             <br>
+            <label for="dt_pag">Data do pagamento</label>
+            <br>
+            <input class="form-control" type="date" name="dt_pag" id="dt_pag" value="<?php echo date("Y-m-d");?>" required>
+            <br>
             <label for="valor_pago">Valor a ser pago:</label>
             <br>
-            <input class="form-control" type="number" name="valor_pago" id="valor_pago" step="0.01" min="0" required>
+            <input class="form-control" type="number" name="valor_pago" id="valor_pago" step="0.01" min="0" placeholder="0,00" required>
             <br><br>
-            <input class="btn btn-success" type="submit" value="Cadastrar Pagamento">
+            <input class="btn btn-success" type="submit" value="Cadastrar Pagamento" >
         </form>
         <?php
             if(isset($_SESSION['log'])){
                 echo "<script >showPopin('".$_SESSION['log']."', '".$_SESSION['log1']."');</script>";
                 unset($_SESSION['log'], $_SESSION['log1']);
             }
-                
+
         ?>
     </div>
 </body>
