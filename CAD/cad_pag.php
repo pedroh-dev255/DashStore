@@ -174,7 +174,7 @@
                     <th>Pedido</th>
                     <th>Data do Pedido</th>
                     <th>Valor Total</th>
-                    <th>Valor Restante</th>
+                    <th style='background-color: #F05D5B;'>Valor Restante</th>
                 </tr>
                 <?php
                     $total_restante = 0;
@@ -197,7 +197,7 @@
                                 <td>Nº ".$row['id']."</td>
                                 <td>".$row['data_formatada']."</td>
                                 <td>R$ ".number_format($totais['total_preco'], 2, ',', '.')."</td>
-                                <td>R$ ".number_format($valor_restante, 2, ',', '.')."</td>
+                                <td style='background-color: #F05D5B;'><b>R$ ".number_format($valor_restante, 2, ',', '.')."</b></td>
                             </tr>";
                         $total_restante += $valor_restante;
                     }

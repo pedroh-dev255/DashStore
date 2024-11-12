@@ -42,14 +42,28 @@ if (isset($_GET['action'])) {
                 FROM estoque e
                 JOIN produtos p ON e.id_prod = p.id
                 WHERE e.status = 0";
+
         $result = $conn->query($sql);
 
+        
+
+        if(mysqli_num_rows($result) < 1){
+            $_SESSION['log'] = "Nenhum produto não vendido encontrado!";
+            $_SESSION['log1'] = "warning";
+            header("Location: ../view/clientes.php");
+            exit();
+        }
         $produtos = [];
 
         if ($result && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $produtos[] = $row;
             }
+        }else {
+            $_SESSION['log'] = "Nenhum produto não vendido encontrado!";
+            $_SESSION['log1'] = "warning";
+            header("Location: ../view/clientes.php");
+            exit();
         }
 
         // Retorna os produtos como JSON

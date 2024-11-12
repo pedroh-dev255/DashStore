@@ -44,18 +44,14 @@
         exit();
     }
 
-    $ss = "SELECT * FROM pagamentos WHERE id_cliente = ?";
+    $ss = "SELECT *, DATE_FORMAT(data_pagamento, '%d/%m/%Y') AS data_formatada FROM pagamentos WHERE id_cliente = ?";
     $stmtss = $conn->prepare($ss);
     $stmtss->bind_param('i', $_GET['id']);
     $stmtss->execute();
     $resultss = $stmtss->get_result();
     $rowss = mysqli_num_rows($resultss);
 
-    if($rowss>0){
-        while($rowsss = mysqli_fetch_assoc($resultss)){
-           
-        }
-    }
+    
         
 
 ?>
@@ -65,7 +61,6 @@
 <head>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="../style/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="./style/geral.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -155,32 +150,32 @@
         ?>
 
         <table class="table">
-            <tr><td colspan="3">Pedidos</td></tr>
             <tr>
-                <td>Id Pedido</td>
-                <td>Data do Pedido</td>
-                <td>Status</td>
+                <td>Id pagamento</td>
+                <td>Data do Pagamento</td>
+                <td>Forma de Pagamento</td>
+                <td>Valor Pago</td>
             </tr>
 
         
 
             <?php
-            while($row = mysqli_fetch_assoc($result)){
-                if($row['status'] == 1){
-                    $status = "Pedido Pago";
-                }else{
-                    $status = "Valor em Aberto";
-                }
-
-                echo "<tr onclick=\"window.location.href='./pedidos.php?id_p=".$row['id']."';\" style='cursor:pointer;'>
-                            <td>".$row['id']."</td>
-                            <td>".$row['data_formatada']."</td>
-                            <td>".$status."</td>
+            if($rowss>0){
+                while($rowsss = mysqli_fetch_assoc($resultss)){
+                   echo "<tr>
+                            <td>".$rowsss['id']."</td>
+                            <td>".$rowsss['data_formatada']."</td>
+                            <td>".$rowsss['forma_pagamento']."</td>
+                            <td>R$ ".number_format($rowsss['valor_pago'], 2, ',', '.')."</td>
                         </tr>";
-                //echo "<a href='./pedidos.php?id_p=".$row['id']."'> Pedido N° " . $row['id'] . " | " . $row['data_formatada'] . " | " . $status . "</a>";
-                //echo "<br>";
+                }
+            }else {
+                
+                $_SESSION['log'] = $row['nome']." ainda não realizou nenhum pagamento";
+                $_SESSION['log1'] = "warning";
+                header("Location: perfil.php?id=".$_GET['id']);
+                exit();
             }
-
         ?>
         </table> 
         
