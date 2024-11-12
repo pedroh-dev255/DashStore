@@ -5,19 +5,28 @@
     
     //Se não logado, redireciona para a tela de login
     if(!isset($_SESSION['login'])){
+        $_SESSION['log'] = "Realize o login para ter acesso ao sistema!";
+        $_SESSION['log1'] = "warning";
         header("Location: ../login.php");
+        exit();
     }
 
     if(!isset($_GET['id'])  || !is_numeric($_GET['id'])){
+        $_SESSION['log'] = "Erro de redirecionamento!";
+        $_SESSION['log1'] = "error";
         header("Location: ./clientes.php");
+        exit();
     }
 
     require("../db.php");
+    checkConnection($conn, '..');
     if (isset($_GET['id'])) {
         $sql = "SELECT * FROM clientes WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('i', $_GET['id']);
     } else {
+        $_SESSION['log'] = "Erro de redirecionamento!";
+        $_SESSION['log1'] = "error";
         header("Location: clientes.php");
         exit();
     }
@@ -29,6 +38,8 @@
     //caso o resultado seja diferente de 1 ele retorna para a view dos clientes
     if($rows != 1){
         header("Location: clientes.php");
+        $_SESSION['log'] = "Cliente não encontrado ou Duplicado!";
+        $_SESSION['log1'] = "error";
         exit();
     }
 
@@ -161,8 +172,9 @@
                         <td>Telefone:</td>
                         <td>".$row['telefone']."</td>
                     </tr>
-                </table>
-                ";
+                </table>";
+
+            echo "<a href='../EDIT/edit_cliente.php?id=".$_GET['id']."'>Editar Informações do Cliente</a><br><br>";
             
             if(isset($total)){
                 echo "<b>Valor Total em Aberto: R$ " . number_format($total,2,",",".") . "</b>";

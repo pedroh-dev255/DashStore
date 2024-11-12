@@ -19,6 +19,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 }
 
 require("../db.php");
+checkConnection($conn, '..');
 
 // Obtém dados do cliente
 $sql = "SELECT * FROM clientes WHERE id = ?";
@@ -332,6 +333,7 @@ if (isset($_GET['action'])) {
         <button style="display: flex; justify-content: flex-end" class="btn btn-warning" onclick="fecharPedido()">Fechar Pedido</button>
     </div>
     <?php
+        $conn->close();
         if(isset($_SESSION['log'])){
             echo "<script >showPopin('".$_SESSION['log']."', '".$_SESSION['log1']."');</script>";
             unset($_SESSION['log'], $_SESSION['log1']);

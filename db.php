@@ -5,10 +5,14 @@
 
     // Create connection
     $conn = mysqli_connect($env['DB_HOST'], $env['DB_USER'], $env['DB_PASS'], $env['DB_NAME']);
-    // Check connection
 
-    if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+    // Função para verificar a conexão
+    function checkConnection($conn,$ponto) {
+        if (!$conn) {
+            header("Location: ".$ponto."/error.php"); // Redireciona para a página de erro
+            exit(); // Encerra o script para evitar execuções adicionais
+        }
     }
 
+    //checkConnection($conn);
 ?>

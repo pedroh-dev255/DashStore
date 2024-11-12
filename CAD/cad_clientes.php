@@ -18,6 +18,7 @@
 
     if (isset($_POST['nome'])) {
         require("../db.php");
+        checkConnection($conn, '..');
     
         // Verifique a conexão
         if ($conn->connect_error) {

@@ -142,6 +142,8 @@
             </tr>
             <?php
                 require("../db.php");
+                checkConnection($conn, '..');
+                
                 if (isset($_GET['busca'])) {
                     $sql = "SELECT * FROM clientes WHERE nome LIKE ? ORDER BY nome ASC";
                     $stmt = $conn->prepare($sql);
@@ -227,6 +229,7 @@
     </div>
     
     <?php
+        $conn->close();
         if(isset($_SESSION['log'])){
             echo "<script >showPopin('".$_SESSION['log']."', '".$_SESSION['log1']."');</script>";
             unset($_SESSION['log'], $_SESSION['log1']);

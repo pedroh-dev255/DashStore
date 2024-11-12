@@ -93,8 +93,9 @@
 
         <br><br>
         <?php
-            require("db.php");
-            
+            require_once("db.php");
+            checkConnection($conn,'.');
+
             $ss = "SELECT * FROM pedidos WHERE status = 0";
             $stmtss = $conn->prepare($ss);
             $stmtss->execute();
@@ -134,6 +135,8 @@
                     //echo "Forma: " . $row2['forma_pagamento'] . " Total: R$ ". number_format($row2['total_pago'],2,",",".") . "<br>";
                 }
             }
+
+            $conn->close();
         ?>
         <!-- README durante desenvolvimento -->
         <h2>Relação do que ja foi desenvolvido:</h2>

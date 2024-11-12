@@ -68,6 +68,7 @@
             </tr>
             <?php
                 require("../db.php");
+                checkConnection($conn, '..');
                 
                 $sql = "SELECT * FROM usuarios ORDER BY nome";
                 $stmt = $conn->prepare($sql);
@@ -271,7 +272,7 @@
             ";
             
         }
-
+        $conn->close();
         if(isset($_SESSION['log'])){
             echo "<script >showPopin('".$_SESSION['log']."', '".$_SESSION['log1']."');</script>";
             unset($_SESSION['log'], $_SESSION['log1']);

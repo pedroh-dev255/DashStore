@@ -7,6 +7,7 @@
         header("Location: ./");
         exit();
     }
+    
 
     function logAttempt($email, $conn) {
         $ipAddress = $_SERVER['REMOTE_ADDR'];
@@ -31,7 +32,7 @@
     if(isset($_POST['login']) && isset($_POST['pass'])){
         // Carrega conexão com banco de dados
         require("./db.php");
-
+        checkConnection($conn, '.');
         // Prepara a consulta SQL para evitar SQL Injection
         $sql = "SELECT * FROM usuarios WHERE email = ?";
         $stmt = $conn->prepare($sql);
@@ -63,6 +64,7 @@
             $_SESSION['log'] = "Usuário não encontrado";
             $_SESSION['log1'] = "error"; // success , warning, error
         }
+        $conn->close();
         
     }
 

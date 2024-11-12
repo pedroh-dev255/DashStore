@@ -97,6 +97,8 @@
                 
             <?php
                 require("../db.php");
+                checkConnection($conn, '..');
+                
                 if (isset($_GET['busca']) && $_GET['busca'] != "") {
                     $sql = "SELECT produtos.nome, estoque.status, estoque.vlr_compra, estoque.vlr_efetivo, estoque.vlr_venda, estoque.dt_compra, COUNT(*) as qtd
                             FROM estoque
@@ -191,6 +193,7 @@
         </div> 
     </div>
     <?php
+        $conn->close();
         if(isset($_SESSION['log'])){
             echo "<script >showPopin('".$_SESSION['log']."', '".$_SESSION['log1']."');</script>";
             unset($_SESSION['log'], $_SESSION['log1']);

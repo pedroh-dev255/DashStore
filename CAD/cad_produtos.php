@@ -18,6 +18,8 @@
 
     //importa as configurações do banco de dados
     include("../db.php");
+    checkConnection($conn, '..');
+    
 
     //Verifica se o usuario fez um novo cadastro, se sim salva o novo produto no banco
     if(isset($_POST['nome']) && $_POST['nome'] != null && $_POST['nome'] != ""){
@@ -121,6 +123,7 @@
     </div>
     
     <?php
+        $conn->close();
         if(isset($_SESSION['log'])){
             echo "<script >showPopin('".$_SESSION['log']."', '".$_SESSION['log1']."');</script>";
             unset($_SESSION['log'], $_SESSION['log1']);

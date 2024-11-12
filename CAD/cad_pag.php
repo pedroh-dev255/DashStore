@@ -18,6 +18,7 @@
     }
 
     require("../db.php");
+    checkConnection($conn, '..');
 
     if($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -218,6 +219,7 @@
             <input class="btn btn-success" type="submit" value="Cadastrar Pagamento" >
         </form>
         <?php
+            $conn->close();
             if(isset($_SESSION['log'])){
                 echo "<script >showPopin('".$_SESSION['log']."', '".$_SESSION['log1']."');</script>";
                 unset($_SESSION['log'], $_SESSION['log1']);

@@ -16,6 +16,8 @@
 
     //carregar informações do pedido
     require("../db.php");
+    checkConnection($conn, '..');
+    
     $sql="SELECT *,pedidos.status AS status_pedido FROM pedidos INNER JOIN clientes ON pedidos.id_cliente = clientes.id WHERE pedidos.id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('s', $_GET['id_p']);
@@ -106,6 +108,7 @@
         </table>
     </div>
     <?php
+        $conn->close();
         if(isset($_SESSION['log'])){
             echo "<script >showPopin('".$_SESSION['log']."', '".$_SESSION['log1']."');</script>";
             unset($_SESSION['log'], $_SESSION['log1']);

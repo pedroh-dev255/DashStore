@@ -13,7 +13,7 @@
     }
 
     include("../db.php");
-
+    checkConnection($conn, '..');
 
 
     $sql="select * from produtos";
