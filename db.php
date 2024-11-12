@@ -1,10 +1,8 @@
 <?php
+// Define o timezone do PHP
 date_default_timezone_set('America/Araguaina');
-/*
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-*/
-// Carrega as variáveis de ambiente
+
+// Carrega as variáveis de ambiente do arquivo .env
 $env = parse_ini_file('.env');
 
 // Verifica se o arquivo .env foi carregado corretamente
@@ -14,13 +12,17 @@ if ($env === false) {
 
 // Bloco try-catch para tratar a exceção ao conectar
 try {
-    $conn = mysqli_connect($env['DB_HOST'], $env['DB_USER'], $env['DB_PASS'], $env['DB_NAME']);
+    // Conecta ao banco de dados
+    $conn = new mysqli($env['DB_HOST'], $env['DB_USER'], $env['DB_PASS'], $env['DB_NAME']);
+    
+    // Verifica a conexão
+    checkConnection($conn, '/'); // Substitua pelo caminho correto da página de erro
 
-    // Verificação da conexão personalizada
-    checkConnection($conn, '/'); // Substitua '/' pelo caminho correto da raiz para a tela de erro
+    // Define o timezone da sessão MySQL para -03:00
+    $conn->query("SET time_zone = '-03:00'");
 
-} catch (mysqli_sql_exception $e) {
-    // Redireciona para a tela de erro se a conexão falhar
+} catch (Exception $e) {
+    // Redireciona para a página de erro se a conexão falhar
     header("Location: /error.php"); // Ajuste o caminho para a localização real da tela de erro
     exit();
 }
@@ -32,5 +34,4 @@ function checkConnection($conn, $ponto) {
         exit(); // Encerra o script para evitar execuções adicionais
     }
 }
-
 ?>
