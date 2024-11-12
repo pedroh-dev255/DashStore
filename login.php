@@ -7,6 +7,9 @@
         header("Location: ./");
         exit();
     }
+
+    require("./db.php");
+    checkConnection($conn, '.');
     
 
     function logAttempt($email, $conn) {
@@ -31,8 +34,7 @@
 
     if(isset($_POST['login']) && isset($_POST['pass'])){
         // Carrega conexão com banco de dados
-        require("./db.php");
-        checkConnection($conn, '.');
+        
         // Prepara a consulta SQL para evitar SQL Injection
         $sql = "SELECT * FROM usuarios WHERE email = ?";
         $stmt = $conn->prepare($sql);
