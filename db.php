@@ -1,5 +1,8 @@
 <?php
 
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
     //carrega as vareaveis de ambiente
     $env = parse_ini_file('.env');
 
