@@ -43,6 +43,25 @@
         exit();
     }
 
+    if(isset($_POST['nome'])){
+        
+        $nome = $_POST['nome'];
+        $telefone = $_POST['telefone'];
+        $cpf = "" . $_POST['cpf'];
+        $endereco = "" . $_POST['endereco'];
+
+        $sql = "UPDATE clientes SET nome = ?, cpf = ?, telefone = ?, endereco = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ssssi', $nome, $cpf, $telefone, $endereco, $_GET['id']);
+        $stmt->execute();
+        $stmt->close();
+
+        $_SESSION['log'] = "Dados do cliente atualizados!";
+        $_SESSION['log1'] = "success";
+        header("Location: ../view/perfil.php?id=".$_GET['id']);
+        exit();
+        
+    }
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -54,6 +73,7 @@
     <title>Editar Usuarios</title>
     <link rel="stylesheet" href="../style/popup.css">
     <script src="../js/all.js"></script>
+    <script src="../js/clarity.js"></script>
 </head>
 <body style="background-color: #cedbd7;">
 

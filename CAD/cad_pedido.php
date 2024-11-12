@@ -145,6 +145,7 @@ if (isset($_GET['action'])) {
     </style>
     <link rel="stylesheet" href="../style/popup.css">
     <script src="../js/all.js"></script>
+    <script src="../js/clarity.js"></script>
     <script>
         let produtosSelecionados = {};
 

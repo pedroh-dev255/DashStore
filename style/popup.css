@@ -1,6 +1,6 @@
 .popin-notification {
     position: fixed;
-    bottom: 20px;
+    top: 50px;
     right: 20px;
     padding: 15px 20px;
     border-radius: 8px;

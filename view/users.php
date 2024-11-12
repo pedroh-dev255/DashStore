@@ -30,6 +30,7 @@
     <title>Usuarios</title>
     <link rel="stylesheet" href="../style/popup.css">
     <script src="../js/all.js"></script>
+    <script src="../js/clarity.js"></script>
 </head>
 <body style="background-color: #cedbd7;">
 

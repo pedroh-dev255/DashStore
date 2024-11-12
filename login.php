@@ -57,10 +57,12 @@
                 
                 // Redireciona para o dashboard
                 header("Location: ./");
+                $_SESSION['log'] = "Bem vindo ". $user['nome'];
+                $_SESSION['log1'] = "success"; // success , warning, error
                 exit();
             } else {
                 $_SESSION['log'] = "Senha incorreta";
-                    $_SESSION['log1'] = "error"; // success , warning, error
+                $_SESSION['log1'] = "error"; // success , warning, error
             }
         } else {
             $_SESSION['log'] = "Usuário não encontrado";
@@ -82,6 +84,7 @@
     <title>Login</title>
     <link rel="stylesheet" href="./style/popup.css">
     <script src="./js/all.js"></script>
+    <script src="../js/clarity.js"></script>
 </head>
 <body>
     <!-- POPUP -->

@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../style/favicon.ico" type="image/x-icon">
     <title>Erro de Conexão</title>
+    <script src="../js/clarity.js"></script>
     <style>
         /* Fundo com transição suave de cores */
         body {
@@ -116,7 +117,7 @@
     <?php
         // Informações de erro para exibição
         $dbHost = $env['DB_HOST']; // ou outro host
-        $errorMessage = 'Erro ao conectar ao banco de dados. Por favor, tente novamente mais tarde.';
+        $errorMessage = 'Erro ao conectar ao banco de dados.';
     ?>
 
     <div class="error-box">

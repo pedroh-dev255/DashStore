@@ -15,6 +15,9 @@
 
     if(!isset($_GET['id'])  || !is_numeric($_GET['id'])){
         header("Location: ../view/clientes.php");
+        $_SESSION['log'] = "Usuario não encontrado!";
+        $_SESSION['log1'] = "error";
+        exit();
     }
 
     require("../db.php");
@@ -81,10 +84,10 @@
                 $valor_pedido = min($valor_pago, $pedido['restante']);
                 $valor_pago -= $valor_pedido;
 
-                $sql_pagamento = "INSERT INTO pagamentos (id_pedido, valor_pago, data_pagamento, forma_pagamento)
-                                  VALUES (?, ?, ?, ?)";
+                $sql_pagamento = "INSERT INTO pagamentos (id_pedido, id_cliente, valor_pago, data_pagamento, forma_pagamento)
+                                  VALUES (?,?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql_pagamento);
-                $stmt->bind_param("idss", $pedido['id'], $valor_pedido, $_POST['dt_pag'], $forma_pagamento);
+                $stmt->bind_param("iidss", $pedido['id'],$_GET['id'], $valor_pedido, $_POST['dt_pag'], $forma_pagamento);
                 $stmt->execute();
 
                 // Verifica se o pedido foi completamente quitado
@@ -97,6 +100,8 @@
             }
         }
         header("Location: ./cad_pag.php?id=".$_GET['id']);
+        $_SESSION['log'] = "Pagamento cadastrado!";
+        $_SESSION['log1'] = "success";
         exit;
     }
 
@@ -112,6 +117,7 @@
 
     if($rows<1){
         $_SESSION['log'] = "Nenhum pedido pendente encontrado!";
+        $_SESSION['log1'] = "warning";
         header("Location: ../view/clientes.php");
         exit;
     }
@@ -125,6 +131,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="../style/popup.css">
     <script src="../js/all.js"></script>
+    <script src="../js/clarity.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Pagamento</title>
     <style>

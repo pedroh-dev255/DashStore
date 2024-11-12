@@ -55,6 +55,7 @@
     <title>Cadastrar Produtos</title>
     <link rel="stylesheet" href="../style/popup.css">
     <script src="../js/all.js"></script>
+    <script src="../js/clarity.js"></script>
     <style>
         .bg-body-tertiary {
             --bs-bg-opacity: 1;

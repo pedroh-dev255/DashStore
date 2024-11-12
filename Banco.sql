@@ -77,6 +77,7 @@ CREATE TABLE pedido_produtos (
 CREATE TABLE pagamentos (
   id INT AUTO_INCREMENT NOT NULL,
   id_pedido INT NOT NULL,
+  id_cliente INT NOT NULL,
   valor_pago FLOAT NOT NULL,
   data_pagamento DATE NOT NULL,
   forma_pagamento VARCHAR(20) NOT NULL,

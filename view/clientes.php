@@ -21,6 +21,7 @@
     <title>Clientes</title>
     <link rel="stylesheet" href="../style/popup.css">
     <script src="../js/all.js"></script>
+    <script src="../js/clarity.js"></script>
     <style>
         .botoes {
             list-style-type: none;

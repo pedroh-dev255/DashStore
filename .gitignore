@@ -1,3 +1,4 @@
 .env
 .env copy
 login_attempts.log
+clarity.js
