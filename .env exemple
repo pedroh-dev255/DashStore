@@ -3,6 +3,3 @@ DB_HOST=
 DB_USER=
 DB_PASS=
 DB_NAME=DashStore
-
-#DOMINIO
-IP=localhost/DashStore

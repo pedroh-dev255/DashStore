@@ -1,5 +1,5 @@
 <?php
-
+    date_default_timezone_set('America/Araguaina');
     $env = parse_ini_file('.env');
 
 

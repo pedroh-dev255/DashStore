@@ -1,4 +1,5 @@
 <?php
+    date_default_timezone_set('America/Araguaina');
 
     //Inicia as sessoes e verifica se o usuario esta logado
     session_start();

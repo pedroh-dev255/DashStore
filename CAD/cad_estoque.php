@@ -1,4 +1,5 @@
 <?php
+    date_default_timezone_set('America/Araguaina');
     session_start();
 
     if(!isset($_SESSION['login'])){
