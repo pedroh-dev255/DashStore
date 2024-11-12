@@ -15,9 +15,11 @@
     function logAttempt($email, $conn) {
         $ipAddress = $_SERVER['REMOTE_ADDR'];
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        $date = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
+        $attempt_time = $date->format('Y-m-d H:i:s');
         
         // Preparar a consulta com placeholders
-        $stmt = $conn->prepare("INSERT INTO login_attempts (email, ip_address, user_agent) VALUES (?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO login_attempts (email, ip_address, user_agent, attempt_time) VALUES (?, ?, ?, ?)");
         
         // Verificar se a preparação da consulta foi bem-sucedida
         if ($stmt === false) {
@@ -25,7 +27,7 @@
         }
         
         // Associar parâmetros e executar a consulta
-        $stmt->bind_param("sss", $email, $ipAddress, $userAgent);
+        $stmt->bind_param("ssss", $email, $ipAddress, $userAgent,$attempt_time);
         $stmt->execute();
         
         // Fechar a declaração

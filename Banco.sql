@@ -91,5 +91,5 @@ CREATE TABLE login_attempts (
     email VARCHAR(255),
     ip_address VARCHAR(45),
     user_agent TEXT,
-    attempt_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    attempt_time datetime
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
