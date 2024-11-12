@@ -6,6 +6,14 @@ if (!isset($_SESSION['login'])) {
     header("Location: ../login.php");
 }
 
+//Verifica se o usuario tem permissão
+if($_SESSION['nivel'] !== 3 && $_SESSION['nivel'] !== 2){
+    $_SESSION['log'] = "Usuario sem permissão para essa area!";
+    $_SESSION['log1'] = "warning";
+    header("Location: ../view/clientes.php");
+    exit();
+}
+
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header("Location: ../view/clientes.php");
 }
