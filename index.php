@@ -6,6 +6,8 @@
     
     //Se não logado, redireciona para a tela de login
     if(!isset($_SESSION['login'])){
+        $_SESSION['log'] = "Usuario não logado!";
+        $_SESSION['log1'] = "error";
         header("Location: ./login.php");
         exit();
     }
@@ -126,6 +128,13 @@
             </form>
 
 
+            <br>
+                <ol class="botoes2">
+                    <li>
+                        <a href="./gerar_relatorio.php?data1=<?php echo $startDate;?>&data2=<?php echo $endDate;?>">Gerar Relatorio</a>
+                        <!-- target="_blank" -->
+                    </li>
+                </ol>
             <br>
 
             <div class="row mt-4">
