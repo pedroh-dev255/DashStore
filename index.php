@@ -48,7 +48,7 @@
             WHERE pd.data_pedido BETWEEN '$startDate' AND '$endDate'
             GROUP BY p.nome
             ORDER BY quantidade DESC
-            LIMIT 10";
+            LIMIT 5";
         $resultTopProducts = $conn->query($queryTopProducts);
     
         // Query de Clientes com Valores em Aberto
