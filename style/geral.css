@@ -54,3 +54,11 @@ body {
     background-color: #af26ff;
 }
 
+.box{
+    padding: 40px;
+}
+
+.row--{
+    padding-left: 20%;
+    padding-right: 20%;
+}
