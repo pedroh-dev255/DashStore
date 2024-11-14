@@ -40,7 +40,7 @@
     
         // Query de Produtos Mais Vendidos
         $queryTopProducts = "
-            SELECT p.nome, COUNT(pp.id_produto) AS quantidade, SUM(pp.preco) AS valor_total
+            SELECT p.nome, COUNT(pp.id_produto) AS quantidade
             FROM pedido_produtos pp
             JOIN estoque e ON pp.id_produto = e.id
             JOIN produtos p ON e.id_prod = p.id
@@ -146,7 +146,6 @@
                         <tr>
                             <th>Produto</th>
                             <th>Quantidade</th>
-                            <th>Valor Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -154,7 +153,6 @@
                             <tr>
                                 <td><?= $product['nome'] ?></td>
                                 <td><?= $product['quantidade'] ?></td>
-                                <td>R$ <?= number_format($product['valor_total'], 2, ',', '.') ?></td>
                             </tr>
                         <?php endwhile; ?>
                     </tbody>
