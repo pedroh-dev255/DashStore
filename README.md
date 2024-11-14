@@ -10,13 +10,22 @@ senha: senha123
 ## Relação do que ja foi desenvolvido:
     [✔] Sistema de Login
     [✔] Controle e Criação de Usuarios
+        [✔] Adicionar
+        [✔] Editar
+        [✔] Deletar
+        [✔] Niveis de Acesso
     [✔] Cadastro de Produtos
     [✔] Cadastro de Estoque
+        [✔] Adicionar Estoque
+        [✔] Retirada de Estoque
     [✔] Cadastro de Clientes
+        [✔] Editar Dados do Cliente
+        [ ] Notificações ao Cliente
     [✔] Cadastro de Pedidos
     [✔] Cadastro de Pagamentos
-    [✔] Stylos
+        [ ] Gerar Recibo Digital
 
 
 Dashboard
-![image](https://github.com/user-attachments/assets/e5072952-0e20-4ae1-9fdd-08f3439c714b)
+![image](https://github.com/user-attachments/assets/6395ada2-68f2-427e-8ba6-3ca9587afbae)
+
