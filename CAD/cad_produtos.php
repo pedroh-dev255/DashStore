@@ -38,8 +38,6 @@
     $sql="select * from produtos";
     $result = $conn->query($sql);
     $rows = mysqli_num_rows($result);
-
-    //fecha a conexão com o banco de dados
     
     
 ?>
