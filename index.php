@@ -12,9 +12,6 @@
         exit();
     }
 
-    //carrega as vareaveis de ambiente
-    $env = parse_ini_file('./.env');
-
     //Verifica se o usuario esta com os niveis de acesso configurado
     if(!isset($_SESSION['nivel']) || $_SESSION['nivel'] == "" || $_SESSION['nivel'] == "0" || $_SESSION['nivel'] == null){
         $_SESSION['log'] = "Usuario sem nivel de acesso definido! Recorra a um administrador do sistema!";
