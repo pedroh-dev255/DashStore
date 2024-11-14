@@ -40,7 +40,7 @@
     $rows = mysqli_num_rows($result);
 
     //fecha a conexão com o banco de dados
-    $conn->close();
+    
     
 ?>
 
