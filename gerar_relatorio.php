@@ -48,7 +48,7 @@ if(isset($_GET['data1']) && isset($_GET['data2'])){
             $this->Ln(10);
 
             $this->SetFont('Helvetica', '', 10);
-            $this->Cell(0, 10, 'Periodo dos dados: ' . $this->startDate->format('d/m/Y') . ' ate ' . $this->endDate->format('d/m/Y'), 0, 1, 'R');
+            $this->Cell(0, 10, 'Periodo dos dados: ' . $this->startDate->format('d/m/Y') . ' a ' . $this->endDate->format('d/m/Y'), 0, 1, 'R');
             $this->Ln(10);
         }
 
@@ -81,33 +81,9 @@ if(isset($_GET['data1']) && isset($_GET['data2'])){
 
     $pdf = new PDF($startDateObj, $endDateObj);
     $pdf->AddPage();
-/*
-    $pdf->AddFont('Helvetica', '', 'HelveticaSansCondensed.php'); // Fonte regular
-    $pdf->AddFont('Helvetica', 'B', 'HelveticaSansCondensed-Bold.php'); // Fonte em negrito*/
 
-    
-    // Seção 1: Pedidos Vendidos
-    $pdf->SetFont('helvetica', '', 12);
-    $pdf->Cell(0, 10, 'Pedidos Vendidos:', 0, 1);
-    $queryOrders = "
-        SELECT p.id, pr.nome AS produto, c.nome AS cliente, pp.preco AS valor 
-        FROM pedidos p 
-        JOIN clientes c ON p.id_cliente = c.id 
-        JOIN pedido_produtos pp ON p.id = pp.id_pedido 
-        JOIN produtos pr ON pp.id_produto = pr.id 
-        WHERE p.status = 1 && data_pedido BETWEEN '$startDate' AND '$endDate'
-        ORDER BY id ASC";
-    $resultOrders = $conn->query($queryOrders);
-
-    $ordersData = [];
-    while ($order = $resultOrders->fetch_assoc()) {
-        $ordersData[] = ["Pedido #{$order['id']}", $order['cliente'], $order['produto'], "R$ " . number_format($order['valor'], 2, ',', '.')];
-    }
-    $pdf->Table(['ID do Pedido', 'Cliente', 'Produto', 'Valor'], $ordersData);
-    $pdf->Ln(10);
-
-    // Seção 2: Pagamentos por Forma de Pagamento
-    $pdf->SetFont('Helvetica', '', 12);
+    // Seção 1: Pagamentos por Forma de Pagamento
+    $pdf->SetFont('Helvetica', 'B', 12);
     $pdf->Cell(0, 10, 'Pagamentos por Forma de Pagamento:', 0, 1);
     $queryPayments = "
         SELECT forma_pagamento, SUM(valor_pago) AS total_pago
@@ -123,8 +99,8 @@ if(isset($_GET['data1']) && isset($_GET['data2'])){
     $pdf ->Table(['Forma de Pagamento', 'Total'], $paymentsData);
     $pdf->Ln(10);
 
-    // Seção 3: Clientes Pendentes de Pagamento
-    $pdf->SetFont('Helvetica', '', 12);
+    // Seção 2: Clientes Pendentes de Pagamento
+    $pdf->SetFont('Helvetica', 'B', 12);
     $pdf->Cell(0, 10, 'Clientes com Pagamentos Pendentes:', 0, 1);
     $queryDebts = "
         SELECT c.nome, SUM(pp.preco) - COALESCE(SUM(pg.valor_pago), 0) AS saldo_aberto
@@ -141,9 +117,31 @@ if(isset($_GET['data1']) && isset($_GET['data2'])){
         $debtsData[] = [$debt['nome'], "R$ " . number_format($debt['saldo_aberto'], 2, ',', '.')];
     }
     $pdf->Table(['Cliente', 'Saldo Pendente'], $debtsData);
+    $pdf->Ln(10);
+
+
+    // Seção 3: Pedidos Vendidos
+    $pdf->SetFont('helvetica', 'B', 12);
+    $pdf->Cell(0, 10, 'Produtos Vendidos:', 0, 1);
+    $queryOrders = "
+        SELECT p.id, pr.nome AS produto, c.nome AS cliente, pp.preco AS valor 
+        FROM pedidos p 
+        JOIN clientes c ON p.id_cliente = c.id 
+        JOIN pedido_produtos pp ON p.id = pp.id_pedido 
+        JOIN produtos pr ON pp.id_produto = pr.id 
+        WHERE p.status = 1 && data_pedido BETWEEN '$startDate' AND '$endDate'
+        ORDER BY id ASC";
+    $resultOrders = $conn->query($queryOrders);
+
+    $ordersData = [];
+    while ($order = $resultOrders->fetch_assoc()) {
+        $ordersData[] = ["Pedido #{$order['id']}", $order['cliente'], $order['produto'], "R$ " . number_format($order['valor'], 2, ',', '.')];
+    }
+    $pdf->Table(['ID do Pedido', 'Cliente', 'Produto', 'Valor'], $ordersData);
+    
 
     // Saída do PDF
-    $pdf->Output('D', 'relatorio de vendas_pagamentos '.(DateTime::createFromFormat('Y-m-d', $startDate))->format('d/m/Y') .' a '.(DateTime::createFromFormat('Y-m-d', $endDate))->format('d/m/Y').' .pdf');
+    $pdf->Output('D', 'Relatorio de Vendas e Pagamentos '.(DateTime::createFromFormat('Y-m-d', $startDate))->format('d/m/Y') .' a '.(DateTime::createFromFormat('Y-m-d', $endDate))->format('d/m/Y').' .pdf');
 
     $conn->close();
 }else{
