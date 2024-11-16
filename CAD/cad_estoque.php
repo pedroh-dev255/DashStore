@@ -17,7 +17,7 @@
     checkConnection($conn, '..');
 
 
-    $sql="select * from produtos";
+    $sql="select * from produtos ORDER BY nome ASC";
     $result = $conn->query($sql);
     $rows = mysqli_num_rows($result);
 
@@ -153,7 +153,7 @@
             Valor de compra do produto <br>
             <input type="number" class="form-control" step="0.01" name="compra" maxlength="200" placeholder="Valor de compra do produto" required><br><br>
             Valor do frete <br>
-            <input type="number" class="form-control" step="0.01" name="frete" placeholder="Valor do frete se houver" required><br><br>
+            <input type="number" class="form-control" step="0.01" name="frete" placeholder="Valor do frete" required><br><br>
             Valor sugerido para venda <br>
             <input type="number" class="form-control" step="0.01" name="venda" placeholder="Valor de venda" required><br><br>
             Data da compra <br>
@@ -165,6 +165,7 @@
     </div>
 
     <script>
+        //simplesmente verifica se o produto que ta sendo seleciona ja ta no banco ou se vai adicionar um nome, e oculta ou exibe o input do novo produto.
         const select = document.getElementById('nomes');
         const inputNome = document.getElementById('nome');
 
