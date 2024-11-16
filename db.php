@@ -3,15 +3,17 @@
 date_default_timezone_set('America/Araguaina');
 
 // Carrega as variáveis de ambiente do arquivo .env
-$DB_HOST="localhost";
-$DB_USER="root";
-$DB_PASS="";
-$DB_NAME="controle_lojinha";
+$env = parse_ini_file('.env');
+
+// Verifica se o arquivo .env foi carregado corretamente
+if ($env === false) {
+    die("Erro ao carregar o arquivo .env");
+}
 
 // Bloco try-catch para tratar a exceção ao conectar
 try {
     // Conecta ao banco de dados
-    $conn = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
+    $conn = new mysqli($env['DB_HOST'], $env['DB_USER'], $env['DB_PASS'], $env['DB_NAME']);
     
     // Verifica a conexão
     checkConnection($conn, '/'); // Substitua pelo caminho correto da página de erro
