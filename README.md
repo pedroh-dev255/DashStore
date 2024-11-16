@@ -24,6 +24,8 @@ senha: senha123
     [✔] Cadastro de Pedidos
     [✔] Cadastro de Pagamentos
         [ ] Gerar Recibo Digital
+    [✔] Gerador de Relatorios em PDF
+        └ ( Creditos a biblioteca que tornou isso possivel http://www.fpdf.org/ )
 
 
 Dashboard
