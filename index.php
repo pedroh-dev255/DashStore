@@ -230,7 +230,7 @@
                 if(isset($totais3['total_pago']) && is_numeric($totais3['total_pago'])){
                     //echo "Total já recebido: R$ ". number_format($totais3['total_pago'],2,",",".") . "<br>";
 
-                    $sql4 = "SELECT forma_pagamento, SUM(valor_pago) AS total_pago FROM pagamentos GROUP BY forma_pagamento;";
+                    $sql4 = "SELECT forma_pagamento, SUM(valor_pago) AS total_pago FROM pagamentos WHERE data_pagamento BETWEEN '$startDate' AND '$endDate' GROUP BY forma_pagamento;";
                     $res4 = $conn->query($sql4);
                     //$totais3 = $res3->fetch_assoc();
                     while($row2 = mysqli_fetch_assoc($res4)){
