@@ -27,7 +27,6 @@ senha: senha123
     [✔] Gerador de Relatorios em PDF
         └ ( Creditos a biblioteca que tornou isso possivel http://www.fpdf.org/ )
 
-
 Dashboard
 ![image](https://github.com/user-attachments/assets/6395ada2-68f2-427e-8ba6-3ca9587afbae)
 
