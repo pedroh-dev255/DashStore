@@ -71,17 +71,6 @@ if(isset($_GET['data1']) && isset($_GET['data2'])){
             // Dados
             $this->SetFont('Helvetica', '', 10);
             foreach ($data as $row) {
-                // Verifica se há espaço suficiente na página
-                if ($this->GetY() + 10 > $this->PageBreakTrigger) {
-                    $this->AddPage();
-                    // Reimprimir cabeçalho da tabela na nova página
-                    $this->SetFont('Helvetica', 'B', 10);
-                    foreach ($header as $col) {
-                        $this->Cell(40, 10, $col, 1);
-                    }
-                    $this->Ln();
-                }
-
                 foreach ($row as $col) {
                     $this->Cell(40, 10, corrigirCaracteres($col), 1);
                 }
@@ -107,7 +96,7 @@ if(isset($_GET['data1']) && isset($_GET['data2'])){
     while ($payment = $resultPayments->fetch_assoc()) {
         $paymentsData[] = [$payment['forma_pagamento'], "R$ " . number_format($payment['total_pago'], 2, ',', '.')];
     }
-    $pdf->Table(['Forma de Pagamento', 'Total'], $paymentsData);
+    $pdf ->Table(['Forma de Pagamento', 'Total'], $paymentsData);
     $pdf->Ln(10);
 
     // Seção 2: Clientes Pendentes de Pagamento
@@ -130,8 +119,9 @@ if(isset($_GET['data1']) && isset($_GET['data2'])){
     $pdf->Table(['Cliente', 'Saldo Pendente'], $debtsData);
     $pdf->Ln(10);
 
+
     // Seção 3: Pedidos Vendidos
-    $pdf->SetFont('Helvetica', 'B', 12);
+    $pdf->SetFont('helvetica', 'B', 12);
     $pdf->Cell(0, 10, 'Produtos Vendidos:', 0, 1);
     $queryOrders = "
         SELECT p.id, pr.nome AS produto, c.nome AS cliente, pp.preco AS valor 
@@ -148,13 +138,14 @@ if(isset($_GET['data1']) && isset($_GET['data2'])){
         $ordersData[] = ["Pedido #{$order['id']}", $order['cliente'], $order['produto'], "R$ " . number_format($order['valor'], 2, ',', '.')];
     }
     $pdf->Table(['ID do Pedido', 'Cliente', 'Produto', 'Valor'], $ordersData);
+    
 
     // Saída do PDF
-    $pdf->Output('D', 'Relatorio de Vendas e Pagamentos ' . (DateTime::createFromFormat('Y-m-d', $startDate))->format('d/m/Y') . ' a ' . (DateTime::createFromFormat('Y-m-d', $endDate))->format('d/m/Y') . ' .pdf');
+    $pdf->Output('D', 'Relatorio de Vendas e Pagamentos '.(DateTime::createFromFormat('Y-m-d', $startDate))->format('d/m/Y') .' a '.(DateTime::createFromFormat('Y-m-d', $endDate))->format('d/m/Y').' .pdf');
 
     $conn->close();
-} else {
-    $_SESSION['log'] = "Para de querer hacker, é feio!";
+}else{
+    $_SESSION['log'] = "para de querer hacker men, é feio!";
     $_SESSION['log1'] = "error";
     header("Location: ./");
     exit();
